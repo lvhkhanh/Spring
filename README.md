@@ -4,6 +4,14 @@
 ### https://spring.io/guides/gs/producing-web-service/
 ## Courses
 [Spring Boot Fundamentals](https://app.pluralsight.com/library/courses/spring-boot-fundamentals)
+### https://codelabs.developers.google.com/codelabs/cloud-kotlin-jib-cloud-run/index.html?index=..%2F..index
+
+## Paths
+### https://app.pluralsight.com/search/?q=spring&type=path
+### https://app.pluralsight.com/paths/skill/spring-framework-building-web-applications-and-services
+
+## Skill Assessment
+### https://app.pluralsight.com/score/skill-assessment/core-spring/intro?context=search
 
 ## API Documentation
 ### Swagger 
