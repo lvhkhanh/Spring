@@ -3,6 +3,7 @@
 ### https://spring.io/guides/gs/rest-service/
 ### https://spring.io/guides/gs/producing-web-service/
 ## Courses
+### https://app.pluralsight.com/library/courses/architecting-web-applications-spring/table-of-contents
 [Spring Boot Fundamentals](https://app.pluralsight.com/library/courses/spring-boot-fundamentals)
 ### https://codelabs.developers.google.com/codelabs/cloud-kotlin-jib-cloud-run/index.html?index=..%2F..index
 
