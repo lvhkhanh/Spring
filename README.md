@@ -2,6 +2,9 @@
 ## Official
 ### https://spring.io/guides/gs/rest-service/
 ### https://spring.io/guides/gs/producing-web-service/
+## Prerequisites
+### https://www.codecademy.com/courses/learn-kotlin/
+### https://www.codecademy.com/learn/learn-java
 ## Courses
 ### https://app.pluralsight.com/library/courses/architecting-web-applications-spring/table-of-contents
 [Spring Boot Fundamentals](https://app.pluralsight.com/library/courses/spring-boot-fundamentals)
