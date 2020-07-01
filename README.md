@@ -19,6 +19,7 @@
 
 ## Best Practices
 ### https://spring.io/guides/gs/securing-web/
+### https://spring.io/guides/tutorials/spring-security-and-angular-js/
 
 ## API Documentation
 ### Swagger 
