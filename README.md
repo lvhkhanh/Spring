@@ -17,6 +17,9 @@
 ## Skill Assessment
 ### https://app.pluralsight.com/score/skill-assessment/core-spring/intro?context=search
 
+## Best Practices
+### https://spring.io/guides/gs/securing-web/
+
 ## API Documentation
 ### Swagger 
 ### Springfox
