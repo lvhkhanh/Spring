@@ -17,6 +17,6 @@ class RegistrationController {
     fun addRegistration(@ModelAttribute("registration") registration: Registration) : String{
 //        TODO: add logger
         println(registration)
-        return "registration"
+        return "redirect:registration"
     }
 }
