@@ -5,14 +5,14 @@
 ## Prerequisites
 ### https://www.codecademy.com/courses/learn-kotlin/
 ### https://www.codecademy.com/learn/learn-java
+## Paths
+- [ ] https://app.pluralsight.com/paths/skill/spring-framework-building-web-applications-and-services 4h
+### https://app.pluralsight.com/search/?q=spring&type=path
 ## Courses
 ### https://app.pluralsight.com/library/courses/architecting-web-applications-spring/table-of-contents
 [Spring Boot Fundamentals](https://app.pluralsight.com/library/courses/spring-boot-fundamentals)
 ### https://codelabs.developers.google.com/codelabs/cloud-kotlin-jib-cloud-run/index.html?index=..%2F..index
 
-## Paths
-### https://app.pluralsight.com/search/?q=spring&type=path
-### https://app.pluralsight.com/paths/skill/spring-framework-building-web-applications-and-services
 
 ## Skill Assessment
 ### https://app.pluralsight.com/score/skill-assessment/core-spring/intro?context=search
