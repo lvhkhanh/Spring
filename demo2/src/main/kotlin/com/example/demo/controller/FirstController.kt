@@ -10,4 +10,9 @@ class FirstController {
         model.plus(Pair("message", "message from controller"))
         return "first"
     }
+    @GetMapping("/thyme")
+    fun thyme(model: Map<String, Any>): String {
+        model.plus(Pair("message", "message from controller thyme"))
+        return "thyme"
+    }
 }
