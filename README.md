@@ -10,6 +10,9 @@
 ### https://www.codecademy.com/learn/learn-java
 ## Tools
 ### IntelliJ
+### Tomcat https://tomcat.apache.org
+#### WAR
+#### Self Contained
 ## Paths
 - [ ] https://app.pluralsight.com/paths/skill/spring-framework-building-web-applications-and-services 4h
 ### https://app.pluralsight.com/search/?q=spring&type=path
