@@ -23,6 +23,7 @@ pom.xml Package Object Model
     <scope>provided</scoped>
   </dependency>
 </dependencies>
+Add configuration for Tomcat server use war
 ```
 ### https://www.codecademy.com/courses/learn-kotlin/
 ### https://www.codecademy.com/learn/learn-java
