@@ -5,12 +5,34 @@
 ### https://spring.io/guides/gs/producing-web-service/
 ## Prerequisites
 ### Gradle
+```
+how to start
+build.gradle.kts
+where to add
+<packaging>war</packaging>
+how to add tomcat
+```
 ### Maven
+```
+pom.xml Package Object Model
+<packaging>war</packaging>
+<dependencies>
+  <depndency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-tomcat</artifactId>
+    <scope>provided</scoped>
+  </dependency>
+</dependencies>
+```
 ### https://www.codecademy.com/courses/learn-kotlin/
 ### https://www.codecademy.com/learn/learn-java
 ## Tools
 ### IntelliJ
 ### Tomcat https://tomcat.apache.org
+```
+Where Application Servers when Ctrl+Alt+S Settings
+
+```
 #### WAR
 #### Self Contained
 ## Paths
