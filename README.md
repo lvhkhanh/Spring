@@ -1,10 +1,14 @@
 # Spring
 ## Official
+### Spring Initializr https://start.spring.io
 ### https://spring.io/guides/gs/rest-service/
 ### https://spring.io/guides/gs/producing-web-service/
 ## Prerequisites
+### Maven
 ### https://www.codecademy.com/courses/learn-kotlin/
 ### https://www.codecademy.com/learn/learn-java
+## Tools
+### IntelliJ
 ## Paths
 - [ ] https://app.pluralsight.com/paths/skill/spring-framework-building-web-applications-and-services 4h
 ### https://app.pluralsight.com/search/?q=spring&type=path
