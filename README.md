@@ -4,6 +4,7 @@
 ### https://spring.io/guides/gs/rest-service/
 ### https://spring.io/guides/gs/producing-web-service/
 ## Prerequisites
+### Gradle
 ### Maven
 ### https://www.codecademy.com/courses/learn-kotlin/
 ### https://www.codecademy.com/learn/learn-java
