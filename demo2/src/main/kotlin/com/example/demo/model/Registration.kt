@@ -1,3 +1,5 @@
 package com.example.demo.model
 
-data class Registration(var name: String)
+import javax.validation.constraints.NotEmpty
+
+data class Registration(@NotEmpty var name: String)

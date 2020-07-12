@@ -22,13 +22,18 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-
+	implementation("org.hibernate.validator:hibernate-validator:6.1.5.Final")
 
 /*
 <dependency>
   <groupId>org.thymeleaf</groupId>
   <artifactId>thymeleaf-spring5</artifactId>
   <version>3.0.11.RELEASE</version>
+</dependency>
+<dependency>
+  <groupId>org.hinbernate.validator</groupId>
+  <artifactId>hibernate-validator</artifactId>
+  <version>6.1.1.Final</version>
 </dependency>
  */
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
