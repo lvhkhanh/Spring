@@ -3,6 +3,7 @@
 ### Spring Initializr https://start.spring.io
 ### https://spring.io/guides/gs/rest-service/
 ### https://spring.io/guides/gs/producing-web-service/
+### https://docs.spring.io/spring/docs/5.1.17.RELEASE/spring-framework-reference/integration.html#mail
 ## Prerequisites
 ### Gradle
 ```
