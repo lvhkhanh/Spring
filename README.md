@@ -32,6 +32,15 @@ Add configuration for Tomcat server use war
 ### [Building Applications with Spring 5 and Vue.js 2](https://www.packtpub.com/free-ebooks/building-applications-spring-5-and-vuejs-2)
 ### [Software Architecture with Spring 5.0](https://www.packtpub.com/free-ebooks/application-development/software-architecture-spring-50/9781788992992)
 ## Tools
+### Visual Studio Code
+#### Extensions
+```
+Language support for Java ™ for Visual Studio Code (redhat.java)
+Java Extension Pack (vscjava.vscode-java-pack)
+Debugger for Java (vscjava.vscode-java-debug)
+Spring Boot Support (Pivotal.vscode-spring-boot)
+Maven Project Explorer (vscjava.vscode-maven)
+```
 ### IntelliJ
 ### Tomcat https://tomcat.apache.org
 ```
