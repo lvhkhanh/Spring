@@ -28,6 +28,9 @@ Add configuration for Tomcat server use war
 ```
 ### https://www.codecademy.com/courses/learn-kotlin/
 ### https://www.codecademy.com/learn/learn-java
+## Ebooks
+### [Building Applications with Spring 5 and Vue.js 2](https://www.packtpub.com/free-ebooks/building-applications-spring-5-and-vuejs-2)
+### [Software Architecture with Spring 5.0](https://www.packtpub.com/free-ebooks/application-development/software-architecture-spring-50/9781788992992)
 ## Tools
 ### IntelliJ
 ### Tomcat https://tomcat.apache.org
