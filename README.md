@@ -5,6 +5,7 @@
 ### https://spring.io/guides/gs/producing-web-service/
 ### https://docs.spring.io/spring/docs/5.1.17.RELEASE/spring-framework-reference/integration.html#mail
 ## Prerequisites
+### Java
 ### Gradle
 ```
 how to start
@@ -28,6 +29,8 @@ Add configuration for Tomcat server use war
 ```
 ### https://www.codecademy.com/courses/learn-kotlin/
 ### https://www.codecademy.com/learn/learn-java
+## Courses
+### https://www.tutorialspoint.com/spring/index.htm Spring Framework version 4.1.6 released in Mar 2015
 ## Ebooks
 ### [Building Applications with Spring 5 and Vue.js 2](https://www.packtpub.com/free-ebooks/building-applications-spring-5-and-vuejs-2)
 ### [Software Architecture with Spring 5.0](https://www.packtpub.com/free-ebooks/application-development/software-architecture-spring-50/9781788992992)
@@ -42,6 +45,7 @@ Spring Boot Support (Pivotal.vscode-spring-boot)
 Maven Project Explorer (vscjava.vscode-maven)
 ```
 ### IntelliJ
+### Eclipse
 ### Tomcat https://tomcat.apache.org
 ```
 Where Application Servers when Ctrl+Alt+S Settings
