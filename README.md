@@ -33,6 +33,7 @@ Add configuration for Tomcat server use war
 ## Courses
 ### https://www.tutorialspoint.com/spring/index.htm Spring Framework version 4.1.6 released in Mar 2015
 ### https://www.tutorialspoint.com/spring_boot/index.htm
+### https://www.javatpoint.com/spring-tutorial
 ## Ebooks
 ### [Building Applications with Spring 5 and Vue.js 2](https://www.packtpub.com/free-ebooks/building-applications-spring-5-and-vuejs-2)
 ### [Software Architecture with Spring 5.0](https://www.packtpub.com/free-ebooks/application-development/software-architecture-spring-50/9781788992992)
