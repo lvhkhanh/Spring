@@ -35,8 +35,9 @@ Add configuration for Tomcat server use war
 ### https://www.tutorialspoint.com/spring_boot/index.htm
 ### https://www.javatpoint.com/spring-tutorial
 ## Ebooks
-### [Building Applications with Spring 5 and Vue.js 2](https://www.packtpub.com/free-ebooks/building-applications-spring-5-and-vuejs-2)
-### [Software Architecture with Spring 5.0](https://www.packtpub.com/free-ebooks/application-development/software-architecture-spring-50/9781788992992)
+### [Software Architecture with Spring 5.0](https://www.packtpub.com/free-ebooks/application-development/software-architecture-spring-50/9781788992992) 372 pages
+### https://www.packtpub.com/free-ebook/building-applications-with-spring-5-and-vuejs-2/9781788836968 590 pages
+### https://www.packtpub.com/free-ebook/hands-on-microservices-with-spring-boot-and-spring-cloud/9781789613476 668 pages
 ## Tools
 ### Visual Studio Code
 #### Extensions
