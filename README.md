@@ -96,3 +96,5 @@ Where Application Servers when Ctrl+Alt+S Settings
 ## https://www.quora.com/What-is-Spring-Framework-and-its-architecture
 
 ## https://www.springboottutorial.com/spring-framework-architectures-and-modules
+ 
+### https://livebook.manning.com/book/spring-in-practice/chapter-7/7
