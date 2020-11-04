@@ -59,6 +59,7 @@ Where Application Servers when Ctrl+Alt+S Settings
 #### Self Contained
 ## Paths
 - [ ] https://app.pluralsight.com/paths/skill/spring-framework-building-web-applications-and-services 4h
+- [ ] https://developers.google.com/learn/pathways/java-cloud-fundamentals?hl=en
 ### https://app.pluralsight.com/search/?q=spring&type=path
 ## Courses
 ### https://app.pluralsight.com/library/courses/architecting-web-applications-spring/table-of-contents
