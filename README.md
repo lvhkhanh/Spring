@@ -38,6 +38,7 @@ Add configuration for Tomcat server use war
 ### [Software Architecture with Spring 5.0](https://www.packtpub.com/free-ebooks/application-development/software-architecture-spring-50/9781788992992) 372 pages
 ### https://www.packtpub.com/free-ebook/building-applications-with-spring-5-and-vuejs-2/9781788836968 590 pages
 ### https://www.packtpub.com/free-ebook/hands-on-microservices-with-spring-boot-and-spring-cloud/9781789613476 668 pages
+### [Hands-On Full Stack Development with Spring Boot 2 and React - Second Edition](https://subscription.packtpub.com/book/web_development/9781838822361) May 2019
 ## Tools
 ### Visual Studio Code
 #### Extensions
