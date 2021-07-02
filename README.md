@@ -1,5 +1,6 @@
 # Spring
 ## Official
+- [ ] https://spring.io/guides/tutorials/spring-security-and-angular-js/
 - [x] https://spring.io/guides/tutorials/react-and-spring-data-rest/
 ### Spring Initializr https://start.spring.io
 ### https://spring.io/guides/gs/rest-service/
