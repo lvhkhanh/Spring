@@ -1,0 +1,2 @@
+# Chrome
+## Turnoff auto translate
