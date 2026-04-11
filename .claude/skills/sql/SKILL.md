@@ -75,6 +75,16 @@ Write a query to get total sales per month for the current year, including produ
 Create a query returning each employee with their salary rank inside department, along with running department salary total.
 ```
 
+### Deduplicate with window functions
+```
+Given a customer_events table with multiple rows per customer and event type, keep only the latest row per customer/event_type using ROW_NUMBER and explain the indexing needed.
+```
+
+### Compare current row to previous row
+```
+Write a query using LAG to show each account transaction, the previous transaction amount, and the delta from the previous transaction within the same account.
+```
+
 ### Optimize slow query
 ```
 This query performs a full table scan on orders and joins customers with no index on customer_id; refactor and add optimal indexes for PostgreSQL.
@@ -137,6 +147,44 @@ SELECT id,
        salary,
        rank() OVER (PARTITION BY department ORDER BY salary DESC) as salary_rank
 FROM employees;
+```
+
+### Running total and previous-row comparison
+```sql
+SELECT account_id,
+       transaction_date,
+       amount,
+       SUM(amount) OVER (
+         PARTITION BY account_id
+         ORDER BY transaction_date
+         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+       ) AS running_amount,
+       LAG(amount) OVER (
+         PARTITION BY account_id
+         ORDER BY transaction_date
+       ) AS previous_amount
+FROM account_transactions;
+```
+
+### Latest row per business key
+```sql
+WITH ranked_events AS (
+  SELECT customer_id,
+         event_type,
+         event_timestamp,
+         payload,
+         ROW_NUMBER() OVER (
+           PARTITION BY customer_id, event_type
+           ORDER BY event_timestamp DESC
+         ) AS rn
+  FROM customer_events
+)
+SELECT customer_id,
+       event_type,
+       event_timestamp,
+       payload
+FROM ranked_events
+WHERE rn = 1;
 ```
 
 ### Soft delete pattern
@@ -255,6 +303,29 @@ public class OrderBatchService {
 }
 ```
 
+## Window Function Guidance
+
+### When to use window functions
+- Use window functions when you need row-level detail plus group-aware calculations in the same result set
+- Prefer them for ranking, running totals, percent-of-total, previous/next row comparison, deduplication, and top-N-per-group queries
+- Use them to replace self-joins or procedural row-by-row loops when the logic depends on relative row position
+- For IBM i modernization, window functions often help replace ordered file reads and subtotal logic while keeping the result set-based
+
+### Common functions
+- `ROW_NUMBER()`: assign a unique sequence inside each partition; ideal for deduplication or latest-row selection
+- `RANK()` / `DENSE_RANK()`: rank rows with tie handling for leaderboards and departmental comparisons
+- `SUM()` / `AVG()` / `COUNT()` over `OVER (...)`: running totals, moving aggregates, and share-of-group metrics
+- `LAG()` / `LEAD()`: compare a row with the prior or next row without a self-join
+- `FIRST_VALUE()` / `LAST_VALUE()`: expose boundary values within a partition when the frame is defined carefully
+- `NTILE()`: split ordered data into bands such as quartiles or deciles
+
+### Design checklist
+- Define `PARTITION BY` from the true business grouping, not just a convenient column
+- Make `ORDER BY` deterministic; add tie-breaker columns when equal values are possible
+- Choose the frame explicitly for running or moving calculations because defaults differ by database and can surprise you
+- Filter on windowed results in an outer query or CTE unless the target database supports `QUALIFY`
+- Index columns used in partitioning, ordering, and post-window filtering when the data volume is large
+
 ## Best Practices
 
 - Use explicit column names instead of SELECT *
@@ -271,6 +342,9 @@ public class OrderBatchService {
 - Convert row-by-row loops only after confirming ordering, locking, and side-effect requirements
 - Use views or APIs to shield consumers from transitional schema differences during phased migration
 - Keep SQL focused on data-intensive work and move orchestration, validation branching, and external integrations into Spring services
+- Use `ROW_NUMBER()` for deduplication only when the `ORDER BY` clause clearly defines which row should win
+- Specify window frames explicitly for running totals and moving calculations to avoid database-specific default behavior
+- Expect window functions to sort data; verify memory, temp-space, and indexing impact on large partitions
 - Use MyBatis when migrated SQL must stay explicit and close to the database, especially for complex joins, procedures, and batch DML
 - Design mapper methods and DTOs around stable business contracts rather than one-to-one legacy record formats
 - Use user-defined functions only for deterministic reusable logic; avoid burying heavy queries or side effects inside them
