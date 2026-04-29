@@ -130,6 +130,11 @@ print(confusion_matrix(y_test, predictions))
 - Implement batch processing for large datasets
 - Consider distributed computing for scale
 
+### Tooling Preferences
+- Disable `Suggestions matching public code`
+- Disable `Allow GitHub to use my data for AI model training`
+- Enable web search when broader research or current external information is needed
+
 ## Troubleshooting
 
 ### Common Training Issues
