@@ -208,6 +208,337 @@ CREATE TABLE batch_run_control (
 );
 ```
 
+### SET = SELECT vs SELECT INTO — datatype conversion risks
+
+#### SET variable = (SELECT …)
+- Returns **exactly one value** into one variable
+- If the SELECT returns **zero rows**, the variable is set to **NULL** — **not** the previous value, not an error
+- If the SELECT returns **more than one row**, a **runtime error** is raised
+- **No implicit type conversion warning**: if the SELECT column type does not match the variable type, silent truncation or rounding can happen depending on the database engine
+
+```sql
+-- Risky: silent NULL when no match, silent truncation if types differ
+DECLARE @discount DECIMAL(5,2);
+SET @discount = (SELECT discount_rate FROM pricing WHERE tier = @tier);
+-- If no row matches, @discount becomes NULL silently
+-- If discount_rate is DECIMAL(10,4), precision is silently lost
+```
+
+#### SELECT INTO
+- Assigns one or more columns into one or more variables in a single statement
+- If the SELECT returns **zero rows**, behavior varies by database:
+  - **SQL Server**: variables retain their **previous values** (dangerous stale-data bug)
+  - **PostgreSQL / DB2**: raises `NO_DATA_FOUND` exception
+  - **MySQL**: variables are set to **NULL** (similar to SET behavior)
+- If the SELECT returns **more than one row**:
+  - **SQL Server**: assigns the **last row** silently (non-deterministic without ORDER BY)
+  - **PostgreSQL / DB2 / MySQL**: raises an error
+
+```sql
+-- Dangerous in SQL Server: @rate keeps its old value when no row matches
+DECLARE @rate DECIMAL(5,2) = 0.00;
+SELECT @rate = discount_rate FROM pricing WHERE tier = @tier;
+-- If no matching row, @rate stays 0.00 — no error, no NULL, just stale data
+```
+
+#### Safe pattern — always guard against zero rows and type mismatches
+```sql
+-- PostgreSQL / DB2 style with explicit exception handler
+DECLARE v_rate DECIMAL(5,2);
+BEGIN
+  SELECT CAST(discount_rate AS DECIMAL(5,2))
+    INTO STRICT v_rate
+    FROM pricing
+    WHERE tier = p_tier;
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    SET v_rate = 0.00;  -- explicit default
+  WHEN TOO_MANY_ROWS THEN
+    SIGNAL SQLSTATE '99001'
+      SET MESSAGE_TEXT = 'Multiple discount rates found for tier';
+END;
+```
+
+```sql
+-- SQL Server safe pattern — check @@ROWCOUNT immediately after SELECT INTO
+DECLARE @rate DECIMAL(5,2) = NULL;  -- initialize to NULL, not a default
+SELECT @rate = CAST(discount_rate AS DECIMAL(5,2))
+  FROM pricing
+  WHERE tier = @tier;
+IF @@ROWCOUNT = 0
+  SET @rate = 0.00;  -- explicit default when no row found
+```
+
+#### Datatype conversion risk checklist
+- **DECIMAL precision loss**: `DECIMAL(10,4)` into `DECIMAL(5,2)` silently rounds or truncates
+- **VARCHAR truncation**: longer source into shorter target silently truncates on some engines, errors on others
+- **DATE/TIMESTAMP mismatch**: assigning a TIMESTAMP column into a DATE variable silently drops time portion
+- **Integer overflow**: assigning a BIGINT value into INT variable may silently wrap or error depending on engine
+- **NULL vs zero vs blank**: IBM i packed decimal fields often use zero where modern SQL expects NULL — mismatch causes wrong defaults
+- **Always use explicit CAST** in SET/SELECT INTO to make type boundaries visible and catch conversion issues early
+
+### Cursor handling — lifecycle and patterns
+
+#### Full cursor lifecycle
+```sql
+-- DB2 / PostgreSQL style
+DECLARE v_order_id    BIGINT;
+DECLARE v_amount      DECIMAL(15,2);
+DECLARE v_done        INT DEFAULT 0;
+
+-- 1. DECLARE: define the cursor query
+DECLARE cur_open_orders CURSOR FOR
+  SELECT order_id, amount
+    FROM orders
+   WHERE status = 'OPEN'
+     AND business_date = p_business_date
+   ORDER BY order_id;  -- deterministic ordering is critical
+
+-- 2. DECLARE handler BEFORE opening cursor
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_done = 1;
+
+-- 3. OPEN: execute the query and position before the first row
+OPEN cur_open_orders;
+
+-- 4. FETCH loop
+fetch_loop: LOOP
+  FETCH cur_open_orders INTO v_order_id, v_amount;
+  IF v_done = 1 THEN
+    LEAVE fetch_loop;
+  END IF;
+
+  -- process each row here
+  UPDATE orders SET status = 'PROCESSING' WHERE order_id = v_order_id;
+END LOOP fetch_loop;
+
+-- 5. CLOSE: release resources
+CLOSE cur_open_orders;
+```
+
+#### Cursor design rules
+- **Always declare NOT FOUND handler BEFORE opening the cursor** — declaring after causes the handler to miss the first end-of-data signal
+- **Always CLOSE cursors explicitly** — unclosed cursors leak resources, especially in long-running batch procedures
+- **Use ORDER BY in the cursor query** — without it, processing order is non-deterministic and differs from IBM i keyed file behavior
+- **Avoid cursors when set-based SQL works** — cursors should be the exception, not the default migration path from RPG READ loops
+- **Use FOR UPDATE only when the cursor row will be modified** — otherwise, unnecessary locks degrade concurrency
+
+#### When cursors are justified
+- Row-by-row processing where each row triggers different external actions (API calls, file writes)
+- Complex conditional logic that depends on accumulated state from prior rows and cannot be expressed as window functions
+- Error handling that must skip, log, and continue for each individual row
+- Controlled commit frequency: commit every N rows to limit transaction log growth during large batch runs
+
+#### Anti-patterns to avoid
+- Fetching all rows into a cursor and then doing a bulk INSERT/UPDATE — use set-based SQL instead
+- Opening the same cursor repeatedly inside a loop — restructure as a parameterized query or JOIN
+- Ignoring cursor state after errors — always ensure CLOSE runs even on exception paths
+- Replacing every RPG READ/READE with a cursor — most of these should become JOINs, CTEs, or MERGE statements
+
+### FETCH INTO — safe variable assignment from cursors
+
+#### Basic FETCH INTO
+```sql
+FETCH cur_name INTO v_col1, v_col2, v_col3;
+```
+
+#### FETCH INTO risks and rules
+- **Column count must exactly match variable count** — mismatched counts cause runtime errors
+- **Column order in the cursor SELECT determines assignment order** — not column names; reordering the SELECT silently reassigns variables
+- **Datatype conversion applies at FETCH time** — same silent truncation and rounding risks as SET/SELECT INTO
+- **After NOT FOUND, variables retain their LAST FETCHED values** — this is the most common cursor bug: processing stale data from the previous iteration
+
+```sql
+-- BUG: after the last row, v_order_id and v_amount still hold the last row's values
+FETCH cur_orders INTO v_order_id, v_amount;
+-- If NOT FOUND fires here, the variables are NOT cleared
+-- The loop body runs with stale data unless you check v_done IMMEDIATELY
+```
+
+#### Safe FETCH pattern
+```sql
+fetch_loop: LOOP
+  FETCH cur_orders INTO v_order_id, v_amount;
+  -- Check NOT FOUND IMMEDIATELY after FETCH, before any processing
+  IF v_done = 1 THEN
+    LEAVE fetch_loop;
+  END IF;
+  -- Safe to use v_order_id and v_amount here
+END LOOP fetch_loop;
+```
+
+#### FETCH INTO with explicit casting
+```sql
+-- Make type boundaries visible at FETCH time
+FETCH cur_legacy_data INTO
+  v_customer_id,
+  CAST(v_raw_amount AS DECIMAL(15,2)),  -- not supported in all engines
+  v_status_code;
+
+-- If engine does not support CAST in FETCH, cast in the cursor SELECT instead:
+DECLARE cur_legacy_data CURSOR FOR
+  SELECT customer_id,
+         CAST(raw_amount AS DECIMAL(15,2)) AS clean_amount,
+         CAST(status_code AS VARCHAR(10)) AS clean_status
+    FROM legacy_extract;
+```
+
+### NOT FOUND handling — patterns and pitfalls
+
+#### The NOT FOUND condition
+- Fires when a FETCH, SELECT INTO, or UPDATE/DELETE affects **zero rows**
+- In DB2 / MySQL stored procedures: controlled via `DECLARE CONTINUE HANDLER FOR NOT FOUND`
+- In PostgreSQL: raises `NO_DATA_FOUND` exception caught with `EXCEPTION WHEN` blocks
+- In SQL Server: check `@@ROWCOUNT = 0` or `@@FETCH_STATUS <> 0` after each operation
+
+#### DB2 / MySQL CONTINUE HANDLER pattern
+```sql
+DECLARE v_done INT DEFAULT 0;
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_done = 1;
+
+OPEN cur_items;
+read_loop: LOOP
+  SET v_done = 0;  -- CRITICAL: reset before each FETCH
+  FETCH cur_items INTO v_item_id, v_qty;
+  IF v_done = 1 THEN
+    LEAVE read_loop;
+  END IF;
+  -- process row
+END LOOP read_loop;
+CLOSE cur_items;
+```
+
+#### Why resetting the flag matters
+- The CONTINUE HANDLER sets `v_done = 1` once and **does not reset it automatically**
+- If you have a SELECT INTO or another cursor FETCH between the handler declaration and the main cursor loop, and that operation hits NOT FOUND, `v_done` becomes 1 **before the loop starts**
+- The loop then exits immediately on the first iteration without processing any rows
+- **Always SET v_done = 0 before each FETCH** or use separate handler flags for separate cursors
+
+```sql
+-- BUG: this lookup triggers NOT FOUND and contaminates the cursor loop
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_done = 1;
+
+SELECT config_value INTO v_batch_size FROM batch_config WHERE key = 'BATCH_SIZE';
+-- If no config row exists, v_done is now 1
+
+OPEN cur_orders;
+read_loop: LOOP
+  FETCH cur_orders INTO v_order_id;  -- v_done is already 1; loop exits immediately!
+  IF v_done = 1 THEN
+    LEAVE read_loop;
+  END IF;
+END LOOP read_loop;
+```
+
+```sql
+-- FIX: reset the flag before entering the loop
+SELECT config_value INTO v_batch_size FROM batch_config WHERE key = 'BATCH_SIZE';
+SET v_done = 0;  -- reset after any SELECT INTO that might trigger NOT FOUND
+
+OPEN cur_orders;
+read_loop: LOOP
+  FETCH cur_orders INTO v_order_id;
+  IF v_done = 1 THEN
+    LEAVE read_loop;
+  END IF;
+  -- process row
+  SET v_done = 0;  -- reset for next FETCH
+END LOOP read_loop;
+CLOSE cur_orders;
+```
+
+#### Multiple cursors with separate NOT FOUND flags
+```sql
+-- Use separate flags when multiple cursors are active
+DECLARE v_done_orders    INT DEFAULT 0;
+DECLARE v_done_returns   INT DEFAULT 0;
+
+DECLARE CONTINUE HANDLER FOR NOT FOUND
+BEGIN
+  -- Determine which cursor triggered NOT FOUND based on context
+  -- Safest approach: use separate blocks or nested compounds
+END;
+
+-- Better: use nested BEGIN/END blocks with separate handlers
+BEGIN
+  DECLARE v_done INT DEFAULT 0;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_done = 1;
+  DECLARE cur_orders CURSOR FOR SELECT order_id FROM orders WHERE status = 'OPEN';
+  OPEN cur_orders;
+  order_loop: LOOP
+    FETCH cur_orders INTO v_order_id;
+    IF v_done = 1 THEN LEAVE order_loop; END IF;
+    -- process order
+  END LOOP order_loop;
+  CLOSE cur_orders;
+END;
+
+BEGIN
+  DECLARE v_done INT DEFAULT 0;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_done = 1;
+  DECLARE cur_returns CURSOR FOR SELECT return_id FROM returns WHERE status = 'PENDING';
+  OPEN cur_returns;
+  return_loop: LOOP
+    FETCH cur_returns INTO v_return_id;
+    IF v_done = 1 THEN LEAVE return_loop; END IF;
+    -- process return
+  END LOOP return_loop;
+  CLOSE cur_returns;
+END;
+```
+
+#### PostgreSQL NOT FOUND pattern
+```sql
+-- PostgreSQL uses GET DIAGNOSTICS or FOUND variable
+DECLARE
+  v_order_id BIGINT;
+  cur_orders CURSOR FOR
+    SELECT order_id FROM orders WHERE status = 'OPEN';
+BEGIN
+  OPEN cur_orders;
+  LOOP
+    FETCH cur_orders INTO v_order_id;
+    EXIT WHEN NOT FOUND;  -- built-in boolean, resets on each FETCH
+    -- process row
+  END LOOP;
+  CLOSE cur_orders;
+END;
+```
+
+#### SQL Server @@FETCH_STATUS pattern
+```sql
+DECLARE cur_orders CURSOR LOCAL FAST_FORWARD FOR
+  SELECT order_id FROM orders WHERE status = 'OPEN';
+
+OPEN cur_orders;
+FETCH NEXT FROM cur_orders INTO @order_id;
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+  -- process row
+  FETCH NEXT FROM cur_orders INTO @order_id;
+END;
+
+CLOSE cur_orders;
+DEALLOCATE cur_orders;  -- SQL Server requires DEALLOCATE after CLOSE
+```
+
+#### NOT FOUND with DML statements
+```sql
+-- NOT FOUND also fires when UPDATE or DELETE affects zero rows
+UPDATE orders SET status = 'SHIPPED' WHERE order_id = v_order_id;
+-- In DB2/MySQL: this triggers the CONTINUE HANDLER if no rows matched
+-- This can contaminate your cursor loop flag!
+
+-- Safe approach: check row count explicitly instead of relying on the handler
+UPDATE orders SET status = 'SHIPPED' WHERE order_id = v_order_id;
+GET DIAGNOSTICS v_row_count = ROW_COUNT;
+IF v_row_count = 0 THEN
+  -- handle missing order explicitly
+  INSERT INTO batch_errors (error_type, key_value, error_msg)
+    VALUES ('ORDER_NOT_FOUND', v_order_id, 'Order missing during shipment update');
+END IF;
+```
+
 ### Procedure for chunked batch updates
 ```sql
 CREATE PROCEDURE process_open_orders(IN p_business_date date)
@@ -349,6 +680,14 @@ public class OrderBatchService {
 - Design mapper methods and DTOs around stable business contracts rather than one-to-one legacy record formats
 - Use user-defined functions only for deterministic reusable logic; avoid burying heavy queries or side effects inside them
 - Estimate migration step-by-step instead of giving one bulk number for the whole legacy module
+- Prefer `SET variable = (SELECT ...)` with explicit CAST and NULL checks over bare `SELECT INTO` to avoid silent stale-data or truncation bugs
+- Always initialize variables to NULL before SET/SELECT INTO so you can distinguish "no row found" from a legitimate zero or blank value
+- Use explicit CAST in every SET/SELECT INTO assignment to prevent silent precision loss, truncation, or date-time narrowing
+- Declare NOT FOUND handlers before opening cursors and reset the done-flag before each FETCH to prevent contamination from earlier SELECT INTO operations
+- Scope each cursor in its own BEGIN/END block with its own NOT FOUND handler when a procedure uses multiple cursors
+- Always CLOSE cursors explicitly, including on error paths, to prevent resource leaks in long-running batch procedures
+- Check FETCH variable count and order against the cursor SELECT column list whenever the query is modified
+- Use GET DIAGNOSTICS ROW_COUNT after DML inside cursor loops instead of relying on the NOT FOUND handler, which can contaminate the cursor done-flag
 
 ## IBM i Migration Guidance
 
@@ -446,6 +785,16 @@ public class OrderBatchService {
 - `ERROR: column does not exist`: verify aliases and schema names
 - `ambiguous column name`: qualify with table alias
 - `conversion failed`: cast values explicitly
+
+### Variable assignment and cursor issues
+- **Stale variable after SELECT INTO (SQL Server)**: variable keeps old value when no rows match — always check `@@ROWCOUNT = 0` immediately after
+- **Silent NULL from SET = (SELECT)**: when no row matches, the variable becomes NULL with no error — guard with COALESCE or explicit check
+- **Cursor loop exits on first iteration**: the NOT FOUND handler was triggered by an earlier SELECT INTO before the cursor opened — reset `v_done = 0` before the loop
+- **Cursor processes last row twice**: NOT FOUND check happens after processing instead of immediately after FETCH — move the `IF v_done` check right after the FETCH line
+- **DML inside cursor loop triggers NOT FOUND**: UPDATE or DELETE affecting zero rows fires the CONTINUE HANDLER and sets `v_done = 1` — use `GET DIAGNOSTICS ROW_COUNT` instead for DML checks
+- **FETCH INTO assigns wrong values**: cursor SELECT columns were reordered but FETCH INTO variable list was not updated — always verify column-to-variable mapping after query changes
+- **Silent truncation in FETCH**: cursor SELECT returns DECIMAL(10,4) but FETCH INTO target is DECIMAL(5,2) — add explicit CAST in the cursor query
+- **Multiple cursors share one NOT FOUND flag**: second cursor immediately exits because the first cursor's end-of-data set the shared flag — use nested BEGIN/END blocks with separate handlers
 
 ### Performance
 - `Hash Join` / `Nested Loop` / `Merge Join` analysis: pick index or materials accordingly
