@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Certificates — CRUD</title>
+    <style>
+        :root{
+            --bg:#f5f7fb; --card:#fff; --muted:#6b7280; --accent:#2563eb;
+            --danger:#dc2626;
+            font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+        }
+        body{margin:0;background:var(--bg);padding:24px;color:#111;}
+        .wrap{max-width:1000px;margin:0 auto;}
+        header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+        h1{font-size:18px;margin:0}
+        .card{background:var(--card);padding:16px;border-radius:8px;box-shadow:0 1px 2px rgba(0,0,0,0.04)}
+        .toolbar{display:flex;gap:8px;align-items:center}
+        input,select,button,textarea{font:inherit}
+        .btn{padding:8px 12px;border-radius:6px;border:0;cursor:pointer;background:var(--accent);color:#fff}
+        .btn.ghost{background:transparent;border:1px solid #e6edf8;color:var(--accent)}
+        .btn.danger{background:var(--danger)}
+        form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+        label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+        input[type="text"],input[type="date"],textarea,select{width:100%;padding:10px;border-radius:6px;border:1px solid #e6edf8;background:#fff}
+        textarea{resize:vertical;min-height:80px;grid-column:1 / -1}
+        .list{margin-top:14px}
+        table{width:100%;border-collapse:collapse}
+        th,td{padding:10px 8px;text-align:left;border-bottom:1px solid #f0f3f9;font-size:14px}
+        th{color:var(--muted);font-weight:600}
+        img.thumb{height:40px;border-radius:4px;object-fit:cover;border:1px solid #eef2ff}
+        .actions{display:flex;gap:8px}
+        .small{padding:6px 8px;font-size:13px}
+        .search{display:flex;gap:8px;align-items:center}
+        .muted{color:var(--muted);font-size:13px}
+        .empty{padding:28px;text-align:center;color:var(--muted)}
+        .row-actions button{background:transparent;border:0;color:var(--accent);cursor:pointer;padding:4px 6px}
+        .preview{display:flex;gap:12px;align-items:center}
+        .meta{font-size:13px;color:var(--muted)}
+        /* responsive */
+        @media (max-width:760px){
+            form{grid-template-columns:1fr}
+            header{flex-direction:column;align-items:flex-start;gap:12px}
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <h1>Certificates Manager</h1>
+            <div class="toolbar">
+                <div class="search">
+                    <input id="q" type="text" placeholder="Search by title, issuer..." />
+                </div>
+                <button id="newBtn" class="btn">New Certificate</button>
+            </div>
+        </header>
+
+        <div class="card">
+            <div id="formContainer" style="display:none">
+                <form id="certForm">
+                    <input type="hidden" id="certId" />
+                    <div>
+                        <label for="title">Title</label>
+                        <input id="title" type="text" required />
+                    </div>
+                    <div>
+                        <label for="issuer">Issuer</label>
+                        <input id="issuer" type="text" required />
+                    </div>
+                    <div>
+                        <label for="date">Date</label>
+                        <input id="date" type="date" />
+                    </div>
+                    <div>
+                        <label for="credentialUrl">Credential URL</label>
+                        <input id="credentialUrl" type="text" placeholder="https://..." />
+                    </div>
+                    <div>
+                        <label for="type">Type</label>
+                        <select id="type">
+                            <option value="Professional">Professional</option>
+                            <option value="Academic">Academic</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div style="grid-column:1 / -1">
+                        <label for="notes">Notes</label>
+                        <textarea id="notes" placeholder="Optional notes"></textarea>
+                    </div>
+
+                    <div>
+                        <label for="file">Attachment (png/jpg/pdf)</label>
+                        <input id="file" type="file" accept="image/*,application/pdf" />
+                    </div>
+
+                    <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+                        <div class="preview" id="previewBox" style="display:none">
+                            <img id="previewImg" class="thumb" alt="preview" />
+                            <div>
+                                <div id="previewName" class="muted"></div>
+                                <div id="previewType" class="meta"></div>
+                            </div>
+                        </div>
+                        <div style="display:flex;gap:8px">
+                            <button type="submit" class="btn">Save</button>
+                            <button id="cancelBtn" type="button" class="btn ghost">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="list" id="listContainer">
+                <div id="tableWrap" class="card" style="padding:0;border-radius:8px">
+                    <table id="certTable" aria-live="polite">
+                        <thead>
+                            <tr>
+                                <th>Preview</th>
+                                <th>Title & Info</th>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th style="width:120px">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            <!-- populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="empty" class="empty" style="display:none">No certificates yet. Click "New Certificate" to add one.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple client-side CRUD using localStorage. Key: 'certs.v1'
+        const KEY = 'certs.v1';
+        const newBtn = document.getElementById('newBtn');
+        const formContainer = document.getElementById('formContainer');
+        const certForm = document.getElementById('certForm');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const tbody = document.getElementById('tbody');
+        const empty = document.getElementById('empty');
+        const q = document.getElementById('q');
+        const fileInput = document.getElementById('file');
+        const previewBox = document.getElementById('previewBox');
+        const previewImg = document.getElementById('previewImg');
+        const previewName = document.getElementById('previewName');
+        const previewType = document.getElementById('previewType');
+
+        function uid(){return Date.now().toString(36) + Math.random().toString(36).slice(2,8)}
+        function load(){return JSON.parse(localStorage.getItem(KEY) || '[]')}
+        function save(arr){localStorage.setItem(KEY, JSON.stringify(arr))}
+
+        function showForm(data){
+            formContainer.style.display = 'block';
+            if(data){
+                document.getElementById('certId').value = data.id;
+                document.getElementById('title').value = data.title;
+                document.getElementById('issuer').value = data.issuer;
+                document.getElementById('date').value = data.date || '';
+                document.getElementById('credentialUrl').value = data.credentialUrl || '';
+                document.getElementById('type').value = data.type || 'Professional';
+                document.getElementById('notes').value = data.notes || '';
+                if(data.file){
+                    previewBox.style.display = 'flex';
+                    previewImg.src = data.file.data;
+                    previewName.textContent = data.file.name;
+                    previewType.textContent = data.file.type;
+                } else previewBox.style.display = 'none';
+            } else {
+                certForm.reset();
+                document.getElementById('certId').value = '';
+                previewBox.style.display = 'none';
+            }
+            window.scrollTo({top:0,behavior:'smooth'});
+        }
+        function hideForm(){formContainer.style.display = 'none'; certForm.reset(); previewBox.style.display='none'}
+
+        function render(){
+            const list = load();
+            const qv = q.value.trim().toLowerCase();
+            const filtered = list.filter(c=>{
+                if(!qv) return true;
+                return (c.title||'').toLowerCase().includes(qv) ||
+                             (c.issuer||'').toLowerCase().includes(qv) ||
+                             (c.type||'').toLowerCase().includes(qv);
+            });
+            tbody.innerHTML = '';
+            if(filtered.length === 0){
+                document.getElementById('tableWrap').style.display = 'none';
+                empty.style.display = 'block';
+                return;
+            } else {
+                document.getElementById('tableWrap').style.display = 'block';
+                empty.style.display = 'none';
+            }
+
+            filtered.sort((a,b)=> (b.date||'').localeCompare(a.date||'') || b.createdAt - a.createdAt);
+
+            for(const cert of filtered){
+                const tr = document.createElement('tr');
+
+                const tdPreview = document.createElement('td');
+                if(cert.file && cert.file.data && cert.file.type.startsWith('image')){
+                    const im = document.createElement('img');
+                    im.className = 'thumb';
+                    im.src = cert.file.data;
+                    im.alt = cert.file.name || 'attachment';
+                    tdPreview.appendChild(im);
+                } else if(cert.file){
+                    const icon = document.createElement('div');
+                    icon.textContent = cert.file.name || 'file';
+                    icon.className = 'muted';
+                    tdPreview.appendChild(icon);
+                } else {
+                    tdPreview.innerHTML = '<div class="muted">—</div>';
+                }
+
+                const tdInfo = document.createElement('td');
+                tdInfo.innerHTML = `<div style="font-weight:600">${escapeHtml(cert.title||'Untitled')}</div>
+                                                        <div class="muted">${escapeHtml(cert.issuer||'—')}</div>`;
+                if(cert.credentialUrl){
+                    const link = document.createElement('a');
+                    link.href = cert.credentialUrl;
+                    link.target = '_blank';
+                    link.rel = 'noopener noreferrer';
+                    link.className = 'muted';
+                    link.textContent = 'View credential';
+                    tdInfo.appendChild(link);
+                }
+                const tdDate = document.createElement('td');
+                tdDate.textContent = cert.date || '—';
+                const tdType = document.createElement('td');
+                tdType.textContent = cert.type || '—';
+
+                const tdActions = document.createElement('td');
+                tdActions.className = 'row-actions';
+                const btnEdit = document.createElement('button');
+                btnEdit.className = 'small';
+                btnEdit.textContent = 'Edit';
+                btnEdit.onclick = ()=> openEdit(cert.id);
+                const btnDel = document.createElement('button');
+                btnDel.className = 'small';
+                btnDel.style.color='var(--danger)';
+                btnDel.textContent = 'Delete';
+                btnDel.onclick = ()=> remove(cert.id);
+                tdActions.appendChild(btnEdit);
+                tdActions.appendChild(btnDel);
+
+                tr.appendChild(tdPreview);
+                tr.appendChild(tdInfo);
+                tr.appendChild(tdDate);
+                tr.appendChild(tdType);
+                tr.appendChild(tdActions);
+                tbody.appendChild(tr);
+            }
+        }
+
+        function openEdit(id){
+            const list = load();
+            const c = list.find(x=>x.id===id);
+            if(!c) return alert('Not found');
+            showForm(c);
+        }
+
+        function remove(id){
+            if(!confirm('Delete this certificate?')) return;
+            let list = load();
+            list = list.filter(x=>x.id!==id);
+            save(list);
+            render();
+        }
+
+        certForm.addEventListener('submit', async (e)=>{
+            e.preventDefault();
+            const id = document.getElementById('certId').value || uid();
+            const title = document.getElementById('title').value.trim();
+            const issuer = document.getElementById('issuer').value.trim();
+            const date = document.getElementById('date').value;
+            const credentialUrl = document.getElementById('credentialUrl').value.trim();
+            const type = document.getElementById('type').value;
+            const notes = document.getElementById('notes').value.trim();
+            const list = load();
+            let fileObj = null;
+            // If previewBox has data, and file input has new file, prefer new upload
+            if(fileInput.files && fileInput.files[0]){
+                fileObj = await toFileObj(fileInput.files[0]);
+            } else {
+                // keep existing file when editing
+                const existing = list.find(x=>x.id===id);
+                if(existing && existing.file) fileObj = existing.file;
+            }
+
+            const item = {
+                id, title, issuer, date, credentialUrl, type, notes,
+                file: fileObj,
+                createdAt: Date.now()
+            };
+
+            const existingIndex = list.findIndex(x=>x.id===id);
+            if(existingIndex >= 0) list[existingIndex] = item;
+            else list.push(item);
+            save(list);
+            hideForm();
+            render();
+        });
+
+        function toFileObj(file){
+            return new Promise((res,rej)=>{
+                const reader = new FileReader();
+                reader.onload = ()=> res({name:file.name,type:file.type,data:reader.result});
+                reader.onerror = rej;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        fileInput.addEventListener('change', async ()=>{
+            const f = fileInput.files && fileInput.files[0];
+            if(!f){ previewBox.style.display='none'; return; }
+            if(f.type.startsWith('image')){
+                const data = await toFileObj(f);
+                previewImg.src = data.data;
+                previewBox.style.display = 'flex';
+                previewName.textContent = f.name;
+                previewType.textContent = f.type;
+            } else {
+                previewBox.style.display = 'flex';
+                previewImg.src = '';
+                previewImg.style.display = 'none';
+                previewName.textContent = f.name;
+                previewType.textContent = f.type;
+                setTimeout(()=> previewImg.style.display = '', 0);
+            }
+        });
+
+        newBtn.addEventListener('click', ()=> showForm(null));
+        cancelBtn.addEventListener('click', hideForm);
+        q.addEventListener('input', render);
+
+        // utilities
+        function escapeHtml(s){return (''+s).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]))}
+
+        const BUILT_IN_CERTS = [
+            {
+                id: 'microsoft-learn-k9jrrxpb',
+                title: 'Microsoft Learn Achievement',
+                issuer: 'Microsoft Learn',
+                date: '',
+                credentialUrl: 'https://learn.microsoft.com/api/achievements/share/en-us/KhanhLVH/K9JRRXPB?sharingId=98427199BE0F24EE',
+                type: 'Professional',
+                notes: 'Reminder: upload this credential to the company site.',
+                file: null,
+                createdAt: 1710000000000
+            }
+        ];
+
+        function seedBuiltInCerts(){
+            const list = load();
+            let changed = false;
+            for(const cert of BUILT_IN_CERTS){
+                const exists = list.some(item =>
+                    item.id === cert.id ||
+                    (cert.credentialUrl && item.credentialUrl === cert.credentialUrl)
+                );
+                if(!exists){
+                    list.push({...cert});
+                    changed = true;
+                }
+            }
+            if(changed) save(list);
+        }
+
+        // seed built-in certificates without overwriting saved user data
+        (function init(){
+            if(!localStorage.getItem(KEY)) save([]);
+            seedBuiltInCerts();
+            render();
+        })();
+    </script>
+</body>
+</html>
