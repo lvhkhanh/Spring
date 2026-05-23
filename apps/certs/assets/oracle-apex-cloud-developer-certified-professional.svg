@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1878" height="1300" viewBox="0 0 1878 1300" role="img" aria-labelledby="title desc">
+    <title id="title">Oracle APEX Cloud Developer Certified Professional certificate for Le Vu Hoang Khanh</title>
+    <desc id="desc">Oracle University certificate of recognition for Oracle APEX Cloud Developer Certified Professional, earned by Le Vu Hoang Khanh on May 16, 2025.</desc>
+    <defs>
+        <pattern id="border-pattern" width="250" height="180" patternUnits="userSpaceOnUse">
+            <rect width="250" height="180" fill="#cdb38e"/>
+            <path d="M0 20 L70 0 L135 35 L250 5 M-20 130 L75 95 L150 126 L270 88" fill="none" stroke="#934133" stroke-width="18" opacity=".6"/>
+            <path d="M20 170 L94 112 L160 154 L234 96" fill="none" stroke="#28495d" stroke-width="12" opacity=".5"/>
+            <circle cx="235" cy="150" r="7" fill="#202020" opacity=".7"/>
+            <circle cx="35" cy="40" r="5" fill="#202020" opacity=".55"/>
+        </pattern>
+        <pattern id="paper-pattern" width="170" height="130" patternUnits="userSpaceOnUse">
+            <rect width="170" height="130" fill="#ffffff"/>
+            <path d="M-10 23 H42 L78 5 H154 M8 67 H75 L118 42 H185 M-24 112 H46 L90 86 H156" fill="none" stroke="#eeeeee" stroke-width="3"/>
+            <path d="M42 23 L42 58 M78 5 L78 40 M75 67 L75 100 M118 42 L118 80 M46 112 L46 140 M90 86 L90 122" fill="none" stroke="#eeeeee" stroke-width="3"/>
+        </pattern>
+        <radialGradient id="seal-silver" cx="50%" cy="45%" r="55%">
+            <stop offset="0" stop-color="#f7f7f7"/>
+            <stop offset=".55" stop-color="#d0d0d0"/>
+            <stop offset=".8" stop-color="#8e8e8e"/>
+            <stop offset="1" stop-color="#4a4a4a"/>
+        </radialGradient>
+        <linearGradient id="seal-gold" x1="0" x2="1">
+            <stop stop-color="#ce7e24"/>
+            <stop offset=".5" stop-color="#f2c56a"/>
+            <stop offset="1" stop-color="#b96d1e"/>
+        </linearGradient>
+        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity=".22"/>
+        </filter>
+    </defs>
+
+    <rect width="1878" height="1300" rx="45" fill="url(#border-pattern)"/>
+    <rect x="53" y="50" width="1777" height="1194" rx="34" fill="url(#paper-pattern)" filter="url(#shadow)"/>
+
+    <g transform="translate(184 142)">
+        <text x="0" y="34" fill="#c74634" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700" letter-spacing="2">ORACLE</text>
+        <text x="0" y="82" fill="#262626" font-family="Arial, Helvetica, sans-serif" font-size="36">University</text>
+    </g>
+
+    <g transform="translate(1506 84)">
+        <path d="M31 260 H80 V125 H31Z" fill="#d99a32"/>
+        <path d="M198 260 H247 V125 H198Z" fill="#d99a32"/>
+        <path d="M79 260 H199 V125 H79Z" fill="#545454"/>
+        <circle cx="139" cy="126" r="117" fill="url(#seal-silver)" stroke="#565656" stroke-width="8"/>
+        <circle cx="139" cy="126" r="91" fill="#ffffff" stroke="url(#seal-gold)" stroke-width="14"/>
+        <circle cx="139" cy="126" r="72" fill="url(#paper-pattern)" opacity=".7"/>
+        <text x="139" y="113" text-anchor="middle" fill="#c74634" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700">ORACLE</text>
+        <text x="139" y="145" text-anchor="middle" fill="#222222" font-family="Arial, Helvetica, sans-serif" font-size="24">Certified</text>
+        <text x="139" y="193" text-anchor="middle" fill="#111111" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700">Professional</text>
+    </g>
+
+    <text x="184" y="374" fill="#222222" font-family="Georgia, 'Times New Roman', serif" font-size="78">Oracle Certified Professional</text>
+    <text x="184" y="458" fill="#222222" font-family="Georgia, 'Times New Roman', serif" font-size="56">Certificate of Recognition</text>
+
+    <text x="187" y="599" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="39">Le Vu Hoang Khanh</text>
+    <text x="187" y="680" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="700">Oracle APEX Cloud Developer Certified Professional</text>
+    <text x="184" y="795" fill="#222222" font-family="Arial, Helvetica, sans-serif" font-size="37">This certifies that the above named is recognized by Oracle Corporation as Oracle Certified.</text>
+
+    <g transform="translate(184 929)">
+        <text x="0" y="23" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="36">May 16, 2025</text>
+        <text x="0" y="107" fill="#666666" font-family="Arial, Helvetica, sans-serif" font-size="34">Date</text>
+    </g>
+
+    <g transform="translate(935 873)">
+        <path d="M21 62 C62 33 92 49 66 88 C50 111 11 113 18 72 C28 14 86 12 117 56 C148 101 185 99 201 60 M58 78 C103 128 158 120 208 101" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round"/>
+        <text x="0" y="164" fill="#666666" font-family="Arial, Helvetica, sans-serif" font-size="34">Damien Carey</text>
+        <text x="0" y="208" fill="#666666" font-family="Arial, Helvetica, sans-serif" font-size="34">Senior Vice President, Oracle University</text>
+    </g>
+
+    <g transform="translate(1596 1148)">
+        <rect width="100" height="99" fill="#cf4432"/>
+        <path d="M28 35 H72 C86 35 93 45 89 61 C85 73 76 80 63 80 H29 C15 80 8 70 12 55 C16 43 18 35 28 35ZM31 47 C25 47 23 50 21 57 C19 65 23 68 30 68 H63 C72 68 77 64 79 57 C81 50 77 47 70 47Z" fill="#ffffff"/>
+    </g>
+</svg>
