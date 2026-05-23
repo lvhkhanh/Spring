@@ -433,6 +433,21 @@
                 createdAt: 1710000005250
             },
             {
+                id: 'microsoft-learn-egbvs8gp',
+                title: 'Designing Agent Architecture and SDLC Integration',
+                issuer: 'Microsoft Learn',
+                date: '2026-05-23',
+                credentialUrl: 'https://learn.microsoft.com/api/achievements/share/en-us/KhanhLVH/EGBVS8GP?sharingId=98427199BE0F24EE',
+                type: 'Professional',
+                notes: 'Issued to: Le Vu Hoang Khanh. Completed on: May 23, 2026.',
+                file: {
+                    name: 'microsoft-learn-designing-agent-architecture-sdlc-integration.svg',
+                    type: 'image/svg+xml',
+                    url: 'assets/microsoft-learn-designing-agent-architecture-sdlc-integration.svg'
+                },
+                createdAt: 1710000005275
+            },
+            {
                 id: 'microsoft-learn-credential-187ce14376a141c0',
                 title: 'GitHub Copilot',
                 issuer: 'Microsoft',
@@ -572,7 +587,7 @@
                 if(!exists){
                     list.push({...cert});
                     changed = true;
-                } else if(cert.id === 'microsoft-learn-xp788jxy' || cert.id === 'microsoft-learn-credential-187ce14376a141c0' || cert.id === 'oracle-database-aws-certified-architect-professional' || cert.id === 'oracle-cloud-infrastructure-2025-certified-generative-ai-professional' || cert.id === 'oracle-cloud-infrastructure-2025-certified-multicloud-architect-professional' || cert.id === 'oracle-apex-cloud-developer-certified-professional' || cert.id === 'oracle-ai-vector-search-certified-professional' || cert.id === 'oracle-cloud-infrastructure-2024-generative-ai-certified-professional'){
+                } else if(cert.id === 'microsoft-learn-xp788jxy' || cert.id === 'microsoft-learn-egbvs8gp' || cert.id === 'microsoft-learn-credential-187ce14376a141c0' || cert.id === 'oracle-database-aws-certified-architect-professional' || cert.id === 'oracle-cloud-infrastructure-2025-certified-generative-ai-professional' || cert.id === 'oracle-cloud-infrastructure-2025-certified-multicloud-architect-professional' || cert.id === 'oracle-apex-cloud-developer-certified-professional' || cert.id === 'oracle-ai-vector-search-certified-professional' || cert.id === 'oracle-cloud-infrastructure-2024-generative-ai-certified-professional'){
                     const index = list.findIndex(item =>
                         item.id === cert.id ||
                         item.credentialUrl === cert.credentialUrl
@@ -588,6 +603,13 @@
                             !(existing.notes || '').includes('95AFCD-98N910');
                     }
                     if(cert.id === 'microsoft-learn-xp788jxy'){
+                        shouldRefresh = !existing.file ||
+                            !existing.file.url ||
+                            !existing.date ||
+                            existing.title === 'Microsoft Learn Achievement' ||
+                            !(existing.notes || '').includes('May 23, 2026');
+                    }
+                    if(cert.id === 'microsoft-learn-egbvs8gp'){
                         shouldRefresh = !existing.file ||
                             !existing.file.url ||
                             !existing.date ||
