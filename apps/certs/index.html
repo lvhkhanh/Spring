@@ -459,10 +459,14 @@
                 title: 'Oracle Database@AWS Certified Architect Professional',
                 issuer: 'Oracle',
                 date: '2025-10-30',
-                credentialUrl: '',
+                credentialUrl: 'https://catalog-education.oracle.com/pls/certview/sharebadge?id=2819C0BC67E2B45FD81033C06D04454F06A7835997E60D088075BD51B56C0AFA',
                 type: 'Professional',
-                notes: 'Added from Oracle certificate screenshot.',
-                file: null,
+                notes: 'Issued to: Le Vu Hoang Khanh. Certificate of Recognition. Earned on: October 30, 2025. Signed by Damien Carey, Senior Vice President, Oracle University.',
+                file: {
+                    name: 'oracle-database-aws-certified-architect-professional.svg',
+                    type: 'image/svg+xml',
+                    url: 'assets/oracle-database-aws-certified-architect-professional.svg'
+                },
                 createdAt: 1710000007000
             },
             {
@@ -533,18 +537,27 @@
                 if(!exists){
                     list.push({...cert});
                     changed = true;
-                } else if(cert.id === 'microsoft-learn-credential-187ce14376a141c0'){
+                } else if(cert.id === 'microsoft-learn-credential-187ce14376a141c0' || cert.id === 'oracle-database-aws-certified-architect-professional'){
                     const index = list.findIndex(item =>
                         item.id === cert.id ||
                         item.credentialUrl === cert.credentialUrl
                     );
                     const existing = list[index];
-                    const shouldRefresh = !existing.file ||
-                        !existing.file.url ||
-                        existing.title === 'Microsoft Learn Credential' ||
-                        existing.issuer === 'Microsoft Learn' ||
-                        !existing.date ||
-                        !(existing.notes || '').includes('95AFCD-98N910');
+                    let shouldRefresh = false;
+                    if(cert.id === 'microsoft-learn-credential-187ce14376a141c0'){
+                        shouldRefresh = !existing.file ||
+                            !existing.file.url ||
+                            existing.title === 'Microsoft Learn Credential' ||
+                            existing.issuer === 'Microsoft Learn' ||
+                            !existing.date ||
+                            !(existing.notes || '').includes('95AFCD-98N910');
+                    }
+                    if(cert.id === 'oracle-database-aws-certified-architect-professional'){
+                        shouldRefresh = !existing.credentialUrl ||
+                            !existing.file ||
+                            !existing.file.url ||
+                            !(existing.notes || '').includes('Damien Carey');
+                    }
                     if(shouldRefresh){
                         list[index] = {...existing, ...cert};
                         changed = true;
