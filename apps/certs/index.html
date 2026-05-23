@@ -29,6 +29,7 @@
         th,td{padding:10px 8px;text-align:left;border-bottom:1px solid #f0f3f9;font-size:14px}
         th{color:var(--muted);font-weight:600}
         img.thumb{height:40px;border-radius:4px;object-fit:cover;border:1px solid #eef2ff}
+        a.preview-link{display:inline-flex}
         .actions{display:flex;gap:8px}
         .small{padding:6px 8px;font-size:13px}
         .search{display:flex;gap:8px;align-items:center}
@@ -164,7 +165,7 @@
                 document.getElementById('notes').value = data.notes || '';
                 if(data.file){
                     previewBox.style.display = 'flex';
-                    previewImg.src = data.file.data;
+                    previewImg.src = data.file.data || data.file.url || '';
                     previewName.textContent = data.file.name;
                     previewType.textContent = data.file.type;
                 } else previewBox.style.display = 'none';
@@ -202,12 +203,20 @@
                 const tr = document.createElement('tr');
 
                 const tdPreview = document.createElement('td');
-                if(cert.file && cert.file.data && cert.file.type.startsWith('image')){
+                if(cert.file && (cert.file.data || cert.file.url) && cert.file.type.startsWith('image')){
+                    const src = cert.file.data || cert.file.url;
                     const im = document.createElement('img');
                     im.className = 'thumb';
-                    im.src = cert.file.data;
+                    im.src = src;
                     im.alt = cert.file.name || 'attachment';
-                    tdPreview.appendChild(im);
+                    const link = document.createElement('a');
+                    link.href = src;
+                    link.target = '_blank';
+                    link.rel = 'noopener noreferrer';
+                    link.className = 'preview-link';
+                    link.title = 'Open original preview';
+                    link.appendChild(im);
+                    tdPreview.appendChild(link);
                 } else if(cert.file){
                     const icon = document.createElement('div');
                     icon.textContent = cert.file.name || 'file';
@@ -340,45 +349,6 @@
 
         // utilities
         function escapeHtml(s){return (''+s).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]))}
-        function githubCopilotCredentialPreview(){
-            const svg = `
-                <svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
-                    <rect width="800" height="500" fill="#102f55"/>
-                    <rect x="18" y="18" width="764" height="464" rx="10" fill="#1f1f1f"/>
-                    <g transform="translate(340 46)">
-                        <rect width="12" height="12" fill="#f25022"/>
-                        <rect x="14" width="12" height="12" fill="#7fba00"/>
-                        <rect y="14" width="12" height="12" fill="#00a4ef"/>
-                        <rect x="14" y="14" width="12" height="12" fill="#ffb900"/>
-                        <text x="34" y="25" fill="#f7f7f7" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700">Microsoft</text>
-                    </g>
-                    <text x="400" y="142" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">Le Vu Hoang Khanh</text>
-                    <text x="400" y="176" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="17">has successfully passed all requirements for</text>
-                    <text x="400" y="218" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">GitHub Copilot</text>
-                    <g transform="translate(330 286)">
-                        <path d="M30 0 H110 Q128 0 132 18 V96 Q132 113 116 121 L70 145 L24 121 Q8 113 8 96 V18 Q12 0 30 0Z" fill="#171b26" stroke="#53617a" stroke-width="4"/>
-                        <text x="70" y="64" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700">GitHub</text>
-                        <text x="70" y="88" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700">Copilot</text>
-                        <text x="70" y="122" text-anchor="middle" fill="#74f477" font-family="Arial, Helvetica, sans-serif" font-size="11">Certification Program</text>
-                    </g>
-                    <g fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="17">
-                        <text x="60" y="320">Credential ID: 187CE14376A141C0</text>
-                        <text x="60" y="346">Certification number: 95AFCD-98N910</text>
-                        <text x="60" y="372">Earned on: May 23, 2026</text>
-                        <text x="60" y="398">Expires on: May 23, 2028</text>
-                    </g>
-                    <g transform="translate(60 430)">
-                        <rect width="168" height="28" rx="14" fill="#0f4d78" stroke="#90cdfd" stroke-width="1.5"/>
-                        <path d="M16 14 L23 21 L36 8" fill="none" stroke="#90cdfd" stroke-width="3"/>
-                        <text x="50" y="20" fill="#a8d8ff" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700">Online Verifiable</text>
-                    </g>
-                    <g transform="translate(656 352)">
-                        <rect width="88" height="44" fill="#ffffff"/>
-                        <text x="44" y="72" text-anchor="middle" fill="#333333" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700">Satya Narayana Nadella</text>
-                    </g>
-                </svg>`;
-            return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
-        }
 
         const BUILT_IN_CERTS = [
             {
@@ -458,7 +428,7 @@
                 file: {
                     name: 'github-copilot-microsoft-credential.svg',
                     type: 'image/svg+xml',
-                    data: githubCopilotCredentialPreview()
+                    url: 'assets/github-copilot-microsoft-credential.svg'
                 },
                 createdAt: 1710000005500
             },
@@ -570,6 +540,7 @@
                     );
                     const existing = list[index];
                     const shouldRefresh = !existing.file ||
+                        !existing.file.url ||
                         existing.title === 'Microsoft Learn Credential' ||
                         existing.issuer === 'Microsoft Learn' ||
                         !existing.date ||
