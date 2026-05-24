@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="1179" viewBox="0 0 2048 1179" role="img" aria-labelledby="title desc">
+    <title id="title">DataCamp statement of accomplishment for Software Development with Claude Code</title>
+    <desc id="desc">Statement of accomplishment awarded to Khanh Le Vu Hoang for successfully completing Software Development with Claude Code, 4 hours, completed on May 24, 2026.</desc>
+    <defs>
+        <pattern id="line-art" width="220" height="220" patternUnits="userSpaceOnUse">
+            <rect width="220" height="220" fill="#fbf7ef"/>
+            <path d="M110 0 V220 M0 110 H220 M110 110 L220 0 M110 110 L0 0 M110 110 L220 220 M110 110 L0 220" stroke="#e7e1d7" stroke-width="2" opacity=".65"/>
+            <circle cx="110" cy="110" r="82" fill="none" stroke="#e7e1d7" stroke-width="2" opacity=".55"/>
+            <path d="M110 32 C154 68 154 152 110 188 C66 152 66 68 110 32Z M32 110 C68 66 152 66 188 110 C152 154 68 154 32 110Z" fill="none" stroke="#e7e1d7" stroke-width="2" opacity=".45"/>
+        </pattern>
+    </defs>
+
+    <rect width="2048" height="1179" fill="#222222"/>
+    <rect x="21" y="7" width="2018" height="1165" fill="#fbf7ef"/>
+    <rect x="21" y="7" width="512" height="1165" fill="#071d33"/>
+    <rect x="533" y="7" width="1506" height="1165" fill="url(#line-art)"/>
+
+    <g transform="translate(149 409)" fill="none" stroke="#00f26a" stroke-width="28" stroke-linejoin="round" stroke-linecap="square">
+        <path d="M20 229 V21 L134 90 V247 L20 229Z"/>
+        <path d="M134 247 L247 181"/>
+        <path d="M134 247 V407 L247 473"/>
+    </g>
+
+    <text x="600" y="131" fill="#071d33" font-family="Inter, Arial, Helvetica, sans-serif" font-size="66" font-weight="800" letter-spacing="12">STATEMENT OF ACCOMPLISHMENT</text>
+    <text x="598" y="186" fill="#071d33" font-family="Inter, Arial, Helvetica, sans-serif" font-size="22" font-weight="700">#47,773,281</text>
+
+    <text x="598" y="270" fill="#8648ff" font-family="Inter, Arial, Helvetica, sans-serif" font-size="31" letter-spacing="10">HAS BEEN AWARDED TO</text>
+    <text x="598" y="363" fill="#071d33" font-family="Inter, Arial, Helvetica, sans-serif" font-size="64" font-weight="700">Khanh Le Vu Hoang</text>
+
+    <text x="598" y="476" fill="#8648ff" font-family="Inter, Arial, Helvetica, sans-serif" font-size="31" letter-spacing="10">FOR SUCCESSFULLY COMPLETING</text>
+    <text x="598" y="568" fill="#071d33" font-family="Inter, Arial, Helvetica, sans-serif" font-size="64" font-weight="800">Software Development with Claude Code</text>
+
+    <text x="598" y="694" fill="#8648ff" font-family="Inter, Arial, Helvetica, sans-serif" font-size="27" letter-spacing="8">LENGTH</text>
+    <text x="598" y="772" fill="#071d33" font-family="Inter, Arial, Helvetica, sans-serif" font-size="42" font-weight="800">4 HRS</text>
+
+    <text x="598" y="873" fill="#8648ff" font-family="Inter, Arial, Helvetica, sans-serif" font-size="27" letter-spacing="8">COMPLETED ON</text>
+    <text x="598" y="951" fill="#071d33" font-family="Inter, Arial, Helvetica, sans-serif" font-size="42" font-weight="800">MAY 24, 2026</text>
+
+    <g transform="translate(606 1031)" fill="#071d33">
+        <path d="M0 0 L32 19 V58 L0 78 Z M8 14 V64 L24 53 V25 Z"/>
+        <path d="M31 18 L62 38 L31 58 V47 L45 38 L31 29Z"/>
+        <text x="77" y="66" font-family="Inter, Arial, Helvetica, sans-serif" font-size="58" font-weight="700">datacamp</text>
+    </g>
+
+    <g transform="translate(1610 860)">
+        <path d="M10 137 C103 71 162 27 118 156 M54 148 C139 96 255 38 176 159 M21 162 C123 116 226 73 306 51" fill="none" stroke="#000000" stroke-width="5" stroke-linecap="round"/>
+        <text x="0" y="204" fill="#071d33" font-family="Inter, Arial, Helvetica, sans-serif" font-size="28">Jonathan Cornelissen</text>
+        <text x="0" y="233" fill="#071d33" font-family="Inter, Arial, Helvetica, sans-serif" font-size="28">CEO, DataCamp</text>
+    </g>
+</svg>

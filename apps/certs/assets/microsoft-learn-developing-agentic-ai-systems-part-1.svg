@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1196" height="718" viewBox="0 0 1196 718" role="img" aria-labelledby="title desc">
+    <title id="title">Microsoft Learn achievement for Developing in Agentic AI Systems Part 1 of 2</title>
+    <desc id="desc">Microsoft Learn achievement awarded to Le Vu Hoang Khanh for completing Developing in Agentic AI Systems Part 1 of 2 on May 23, 2026.</desc>
+    <defs>
+        <pattern id="edge-pattern" width="90" height="90" patternUnits="userSpaceOnUse">
+            <rect width="90" height="90" fill="#ffffff"/>
+            <path d="M0 12 L24 0 L48 12 L72 0 L96 12 M0 78 L24 90 L48 78 L72 90 L96 78" fill="none" stroke="#33aee2" stroke-width="2" opacity=".7"/>
+            <path d="M12 0 V18 M78 72 V90 M0 46 H18 M72 44 H90" fill="none" stroke="#33aee2" stroke-width="2" opacity=".5"/>
+        </pattern>
+        <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+            <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity=".18"/>
+        </filter>
+    </defs>
+
+    <rect width="1196" height="718" fill="url(#edge-pattern)"/>
+    <rect x="3" y="10" width="1180" height="702" rx="8" fill="#ffffff" filter="url(#shadow)"/>
+
+    <g transform="translate(50 59)">
+        <rect width="16" height="16" fill="#f25022"/>
+        <rect x="18" width="16" height="16" fill="#7fba00"/>
+        <rect y="18" width="16" height="16" fill="#00a4ef"/>
+        <rect x="18" y="18" width="16" height="16" fill="#ffb900"/>
+        <text x="42" y="28" fill="#111111" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="28" font-weight="700">Microsoft</text>
+    </g>
+
+    <g transform="translate(498 126)">
+        <path d="M27 18 H63 L77 32 H157 C169 32 178 41 178 53 V164 H27Z" fill="#ffffff" stroke="#b8b8b8" stroke-width="2"/>
+        <path d="M27 18 H68 L83 35 H178" fill="none" stroke="#b8b8b8" stroke-width="2"/>
+        <g fill="none" stroke="#25a4ed" stroke-width="3" stroke-linecap="round">
+            <path d="M12 45 H0 V20 M26 24 V0 M190 45 H204 V20 M178 24 V0 M12 189 H0 V214 M26 210 V235 M190 189 H204 V214 M178 210 V235"/>
+            <path d="M20 75 H3 M20 96 H0 M20 139 H0 M20 160 H4 M185 75 H202 M185 96 H205 M185 139 H205 M185 160 H201"/>
+        </g>
+        <g fill="#25a4ed">
+            <circle cx="0" cy="20" r="3"/><circle cx="26" cy="0" r="3"/><circle cx="204" cy="20" r="3"/><circle cx="178" cy="0" r="3"/>
+            <circle cx="0" cy="214" r="3"/><circle cx="26" cy="235" r="3"/><circle cx="204" cy="214" r="3"/><circle cx="178" cy="235" r="3"/>
+        </g>
+        <g transform="translate(28 31)">
+            <rect x="0" y="0" width="24" height="15" fill="#00a4ef"/>
+            <path d="M0 0 L24 15 M24 0 L0 15" stroke="#7fba00" stroke-width="3"/>
+            <path d="M3 3 L21 12" stroke="#f25022" stroke-width="1.5"/>
+        </g>
+    </g>
+
+    <text x="598" y="386" text-anchor="middle" fill="#1f1f1f" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="37" font-weight="700">Le Vu Hoang Khanh</text>
+    <text x="598" y="456" text-anchor="middle" fill="#1f1f1f" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="29">has successfully completed</text>
+    <text x="598" y="525" text-anchor="middle" fill="#1f1f1f" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="29" font-weight="700">Developing in Agentic AI Systems Part 1 of 2</text>
+    <text x="598" y="594" text-anchor="middle" fill="#1f1f1f" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="25">May 23, 2026</text>
+
+    <g transform="translate(985 573)">
+        <path d="M30 37 C45 45 62 42 70 32 M50 12 C43 39 31 53 32 30 C33 7 46 5 50 13 M104 31 C113 43 124 49 134 38 M128 22 C140 38 151 45 156 24" fill="none" stroke="#111111" stroke-width="2.4" stroke-linecap="round"/>
+        <line x1="0" y1="60" x2="150" y2="60" stroke="#dddddd" stroke-width="1"/>
+        <text x="75" y="83" text-anchor="middle" fill="#333333" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="14" font-weight="700">Satya Narayana Nadella</text>
+    </g>
+</svg>
