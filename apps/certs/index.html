@@ -530,6 +530,36 @@
                 createdAt: 1710000006500
             },
             {
+                id: 'salesforce-certified-mulesoft-developer-4393063',
+                title: 'Salesforce Certified MuleSoft Developer',
+                issuer: 'Salesforce',
+                date: '2022-06-18',
+                credentialUrl: 'https://sforce.co/verifycerts',
+                type: 'Professional',
+                notes: 'Presented to: Le Vu Hoang Khanh. Credential ID: 4393063. Issued on: June 18, 2022. Verification: sforce.co/verifycerts.',
+                file: {
+                    name: 'salesforce-certified-mulesoft-developer.svg',
+                    type: 'image/svg+xml',
+                    url: 'assets/salesforce-certified-mulesoft-developer.svg'
+                },
+                createdAt: 1710000006750
+            },
+            {
+                id: 'salesforce-certified-mulesoft-integration-foundations-4393062',
+                title: 'Salesforce Certified MuleSoft Integration Foundations',
+                issuer: 'Salesforce',
+                date: '2022-11-09',
+                credentialUrl: 'https://sforce.co/verifycerts',
+                type: 'Professional',
+                notes: 'Presented to: Le Vu Hoang Khanh. Credential ID: 4393062. Issued on: November 09, 2022. Verification: sforce.co/verifycerts.',
+                file: {
+                    name: 'salesforce-certified-mulesoft-integration-foundations.svg',
+                    type: 'image/svg+xml',
+                    url: 'assets/salesforce-certified-mulesoft-integration-foundations.svg'
+                },
+                createdAt: 1710000006775
+            },
+            {
                 id: 'oracle-database-aws-certified-architect-professional',
                 title: 'Oracle Database@AWS Certified Architect Professional',
                 issuer: 'Oracle',
@@ -632,7 +662,7 @@
                 if(!exists){
                     list.push({...cert});
                     changed = true;
-                } else if(cert.id === 'microsoft-learn-xp788jxy' || cert.id === 'microsoft-learn-egbvs8gp' || cert.id === 'microsoft-learn-vspzskqm' || cert.id === 'microsoft-learn-k9tp95jb' || cert.id === 'microsoft-learn-credential-187ce14376a141c0' || cert.id === 'datacamp-software-development-with-claude-code' || cert.id === 'oracle-database-aws-certified-architect-professional' || cert.id === 'oracle-cloud-infrastructure-2025-certified-generative-ai-professional' || cert.id === 'oracle-cloud-infrastructure-2025-certified-multicloud-architect-professional' || cert.id === 'oracle-apex-cloud-developer-certified-professional' || cert.id === 'oracle-ai-vector-search-certified-professional' || cert.id === 'oracle-cloud-infrastructure-2024-generative-ai-certified-professional'){
+                } else if(cert.id === 'microsoft-learn-xp788jxy' || cert.id === 'microsoft-learn-egbvs8gp' || cert.id === 'microsoft-learn-vspzskqm' || cert.id === 'microsoft-learn-k9tp95jb' || cert.id === 'microsoft-learn-credential-187ce14376a141c0' || cert.id === 'datacamp-software-development-with-claude-code' || cert.id === 'salesforce-certified-mulesoft-developer-4393063' || cert.id === 'salesforce-certified-mulesoft-integration-foundations-4393062' || cert.id === 'oracle-database-aws-certified-architect-professional' || cert.id === 'oracle-cloud-infrastructure-2025-certified-generative-ai-professional' || cert.id === 'oracle-cloud-infrastructure-2025-certified-multicloud-architect-professional' || cert.id === 'oracle-apex-cloud-developer-certified-professional' || cert.id === 'oracle-ai-vector-search-certified-professional' || cert.id === 'oracle-cloud-infrastructure-2024-generative-ai-certified-professional'){
                     const index = list.findIndex(item =>
                         item.id === cert.id ||
                         item.credentialUrl === cert.credentialUrl
@@ -680,6 +710,18 @@
                             !existing.file.url ||
                             !existing.date ||
                             !(existing.notes || '').includes('#47,773,281');
+                    }
+                    if(cert.id === 'salesforce-certified-mulesoft-developer-4393063'){
+                        shouldRefresh = !existing.file ||
+                            !existing.file.url ||
+                            !existing.date ||
+                            !(existing.notes || '').includes('4393063');
+                    }
+                    if(cert.id === 'salesforce-certified-mulesoft-integration-foundations-4393062'){
+                        shouldRefresh = !existing.file ||
+                            !existing.file.url ||
+                            !existing.date ||
+                            !(existing.notes || '').includes('4393062');
                     }
                     if(cert.id === 'oracle-database-aws-certified-architect-professional'){
                         shouldRefresh = !existing.credentialUrl ||

@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Salesforce Certified MuleSoft Developer certificate</title>
+  <desc id="desc">Certificate presented to Le Vu Hoang Khanh on June 18, 2022 with credential ID 4393063.</desc>
+  <defs>
+    <linearGradient id="blue" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#1477c9"/>
+      <stop offset="1" stop-color="#0988de"/>
+    </linearGradient>
+    <filter id="grain">
+      <feTurbulence baseFrequency=".9" numOctaves="2" seed="7" type="fractalNoise"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 .08"/>
+      </feComponentTransfer>
+    </filter>
+    <style>
+      .white{fill:#fff}
+      .muted{fill:#08285f}
+      .sky{fill:#20a5df}
+      .sky2{fill:#8fd0ff}
+      .line{stroke:#9cc7ec;stroke-width:1.5}
+      .sans{font-family:Inter,Arial,Helvetica,sans-serif}
+      .script{font-family:"Brush Script MT","Segoe Script",cursive}
+      .wide{letter-spacing:14px}
+      .tiny{font-size:16px;font-weight:800;letter-spacing:6px}
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="#f7f7f6"/>
+  <path d="M0 0h1600v664c-247 55-510 85-800 85S247 719 0 664Z" fill="url(#blue)"/>
+  <rect width="1600" height="735" fill="#0c7fd4" filter="url(#grain)" opacity=".45"/>
+
+  <g opacity=".14" fill="#37c3ef">
+    <circle cx="285" cy="150" r="98"/>
+    <circle cx="118" cy="290" r="130"/>
+    <circle cx="290" cy="286" r="150"/>
+    <circle cx="505" cy="348" r="122"/>
+    <circle cx="1375" cy="420" r="86"/>
+    <circle cx="1518" cy="575" r="120"/>
+    <circle cx="1205" cy="580" r="112"/>
+    <circle cx="1030" cy="650" r="97"/>
+  </g>
+
+  <g transform="translate(800 170)">
+    <path d="M-42-86h84c11 0 19 6 26 16l43 55c7 10 9 20 6 32L91 82c-2 9-8 16-17 20L10 132c-7 4-13 4-20 0l-64-30c-9-4-15-11-17-20l-26-65c-3-12-1-22 6-32l43-55c7-10 15-16 26-16Z" fill="#2b1393"/>
+    <path d="M-75 72-10 102c7 3 13 3 20 0l65-30-5 29-60 29c-7 4-13 4-20 0l-60-29Z" fill="#9db9ff"/>
+    <g fill="#14a7db" transform="translate(0 -58)">
+      <circle cx="-14" cy="2" r="13"/>
+      <circle cx="0" cy="-6" r="13"/>
+      <circle cx="15" cy="0" r="12"/>
+      <circle cx="-25" cy="9" r="10"/>
+      <circle cx="26" cy="3" r="11"/>
+    </g>
+    <text x="0" y="-7" class="white sans" font-size="30" font-weight="900" text-anchor="middle">CERTIFIED</text>
+    <text x="0" y="21" class="white sans" font-size="17" font-weight="800" text-anchor="middle">MuleSoft</text>
+    <text x="0" y="42" class="white sans" font-size="17" font-weight="800" text-anchor="middle">Developer</text>
+  </g>
+
+  <text x="800" y="315" class="white sans wide" font-size="31" font-weight="800" text-anchor="middle">SALESFORCE CERTIFIED</text>
+  <text x="800" y="390" class="white sans" font-size="48" font-weight="700" text-anchor="middle">MuleSoft Developer</text>
+  <text x="800" y="552" class="white script" font-size="35" font-weight="700" text-anchor="middle">Presented to</text>
+  <text x="800" y="603" class="white sans" font-size="31" font-weight="500" text-anchor="middle">Le Vu Hoang Khanh</text>
+  <text x="800" y="666" class="white sans" font-size="28" font-weight="700" text-anchor="middle">for successfully completing certification requirements</text>
+
+  <g transform="translate(160 813)">
+    <g fill="#139fdb">
+      <circle cx="0" cy="0" r="27"/>
+      <circle cx="28" cy="-7" r="24"/>
+      <circle cx="56" cy="0" r="25"/>
+      <circle cx="18" cy="22" r="27"/>
+      <circle cx="42" cy="21" r="26"/>
+    </g>
+    <text x="28" y="9" class="white sans" font-size="19" text-anchor="middle">salesforce</text>
+  </g>
+
+  <g transform="translate(405 824)" class="sky2">
+    <path d="M0 42c-21-34-22-72 6-111" fill="none" stroke="#8fd0ff" stroke-width="5"/>
+    <path d="M0 21c-28-8-42-20-50-43 24 3 40 14 50 43ZM9 7c-23-17-30-32-29-56 22 11 32 26 29 56ZM15-14c-12-23-13-39-4-60 16 16 21 32 4 60ZM-3 41c-29 1-46-6-61-25 24-5 43 1 61 25ZM-1 61c-26 10-45 9-65-6 22-12 42-10 65 6Z"/>
+  </g>
+
+  <g class="sans" text-anchor="middle">
+    <text x="568" y="812" fill="#0879d3" font-size="23" font-weight="700">June 18, 2022</text>
+    <path class="line" d="M506 827h124"/>
+    <text x="568" y="851" class="muted tiny">ISSUED</text>
+
+    <text x="800" y="812" fill="#0879d3" font-size="23" font-weight="700">4393063</text>
+    <path class="line" d="M737 827h126"/>
+    <text x="800" y="851" class="muted tiny">CREDENTIAL ID</text>
+
+    <text x="1032" y="812" fill="#0879d3" font-size="23" font-weight="700">sforce.co/verifycerts</text>
+    <path class="line" d="M979 827h106"/>
+    <text x="1032" y="851" class="muted tiny">VERIFICATION</text>
+  </g>
+
+  <g transform="translate(1220 824)" class="sky2">
+    <path d="M0 42c-21-34-22-72 6-111" fill="none" stroke="#8fd0ff" stroke-width="5"/>
+    <path d="M0 21c-28-8-42-20-50-43 24 3 40 14 50 43ZM9 7c-23-17-30-32-29-56 22 11 32 26 29 56ZM15-14c-12-23-13-39-4-60 16 16 21 32 4 60ZM-3 41c-29 1-46-6-61-25 24-5 43 1 61 25ZM-1 61c-26 10-45 9-65-6 22-12 42-10 65 6Z"/>
+  </g>
+
+  <g transform="translate(1435 806)">
+    <path d="M31-28c24 16 42 44 42 64 0 16-24 24-42 24s-42-8-42-24c0-20 18-48 42-64Z" fill="#06265d"/>
+    <path d="M31-19c19 13 32 37 32 53 0 10-19 15-32 15S-1 44-1 34c0-16 13-40 32-53Z" fill="#96c4fb"/>
+    <path d="M8 35h46L31 0Z" fill="#1d166e"/>
+    <path d="M21 25h20L31 9Z" fill="#d25ee8"/>
+    <path d="M11 42c8-13 15-14 23-1 9-15 18-16 30 0-9 9-43 13-53 1Z" fill="#35ad5f"/>
+    <text x="31" y="85" class="muted sans tiny" text-anchor="middle">TRAILHEAD</text>
+  </g>
+</svg>
