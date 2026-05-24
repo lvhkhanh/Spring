@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1716 1323" role="img" aria-labelledby="title desc">
+  <title id="title">Google Cloud Certified Associate Cloud Engineer certificate</title>
+  <desc id="desc">Certificate acknowledging Khanh Le as a Google Cloud Certified Associate Cloud Engineer, issued July 18, 2025 and expiring July 18, 2028.</desc>
+  <defs>
+    <style>
+      .sans{font-family:Arial,Helvetica,sans-serif}
+      .black{fill:#000}
+      .gray{fill:#5f6368}
+      .blue{fill:#4285f4}
+      .red{fill:#ea4335}
+      .yellow{fill:#fbbc05}
+      .green{fill:#34a853}
+    </style>
+  </defs>
+
+  <rect width="1716" height="1323" fill="#222"/>
+  <rect x="15" y="7" width="1688" height="1309" fill="#fff"/>
+  <rect x="44" y="35" width="1637" height="1241" fill="none" stroke="#dadce0" stroke-width="3"/>
+
+  <g class="sans" font-weight="400">
+    <text x="548" y="208" font-size="112" class="blue">G</text>
+    <text x="632" y="208" font-size="94" class="red">o</text>
+    <text x="697" y="208" font-size="94" class="yellow">o</text>
+    <text x="762" y="208" font-size="94" class="blue">g</text>
+    <text x="821" y="208" font-size="94" class="green">l</text>
+    <text x="846" y="208" font-size="94" class="red">e</text>
+    <text x="913" y="208" font-size="102" class="gray">Cloud</text>
+  </g>
+
+  <g class="sans black" text-anchor="middle">
+    <text x="858" y="337" font-size="40">This acknowledges that</text>
+    <text x="858" y="466" font-size="78">Khanh Le</text>
+    <text x="858" y="552" font-size="40">has successfully completed all the requirements to be recognized as a</text>
+    <text x="858" y="655" font-size="62">Google Cloud Certified</text>
+    <text x="858" y="752" font-size="62">Associate Cloud Engineer</text>
+  </g>
+
+  <g class="sans black" font-size="30">
+    <text x="125" y="1024">Series ID: 176932</text>
+    <text x="125" y="1074">Issued Date: Jul 18, 2025</text>
+    <text x="125" y="1122">Expiration Date: Jul 18, 2028</text>
+    <text x="125" y="1168">ID: 2de45f619a8044fcb465e34f86fbc973</text>
+    <text x="125" y="1218">Certified As: </text>
+    <text x="310" y="1218" font-weight="700">Khanh Le Vu Hoang</text>
+  </g>
+
+  <g transform="translate(758 934)">
+    <path d="M0 57 C55 27 88 7 50 84 M-2 88 C57 58 105 33 151 24 M31 31 C57 70 78 78 111 43 M128 0 C127 47 113 79 101 114" fill="none" stroke="#5f6368" stroke-width="5" stroke-linecap="round"/>
+    <text x="2" y="196" class="sans gray" font-size="30">Thomas Kurian</text>
+    <text x="-23" y="238" class="sans gray" font-size="30">CEO, Google Cloud</text>
+  </g>
+
+  <g transform="translate(1457 1052)">
+    <circle r="192" fill="#f8f9fa" stroke="#b5bcc3"/>
+    <circle r="110" fill="none" stroke="#4285f4" stroke-width="14"/>
+    <path d="M-44 20c0-38 31-69 69-69 29 0 54 18 64 44h8c28 0 50 23 50 50s-22 50-50 50H-46c-30 0-54-24-54-54 0-28 21-51 48-54 2-2 5-5 8-7Z" fill="#4285f4"/>
+    <path d="M24-49c29 0 54 18 64 44h8c8 0 15 2 22 5l-38 37c-10-19-30-32-56-32-26 0-48 17-56 40l-42-33c13-36 52-61 98-61Z" fill="#ea4335"/>
+    <path d="M-74 12-32 45c-2 7-3 13-3 21 0 12 3 23 9 33h-20c-30 0-54-24-54-54 0-15 6-27 16-37Z" fill="#fbbc05"/>
+    <path d="M-26 99c11 18 31 30 54 30h58v-50H28c-20 0-38-13-44-31l-42 32c8 8 19 14 32 19Z" fill="#34a853"/>
+    <text x="0" y="-120" class="sans gray" font-size="28" text-anchor="middle">Cloud Engineer</text>
+    <path d="M-156 0A156 156 0 0 1 156 0" fill="none" stroke="#9aa0a6" stroke-width="3"/>
+    <path d="M-156 0A156 156 0 0 0 156 0" fill="none" stroke="#9aa0a6" stroke-width="3" opacity=".2"/>
+    <text x="0" y="171" class="sans gray" font-size="16" text-anchor="middle" letter-spacing="5">GOOGLE CLOUD CERTIFIED ASSOCIATE</text>
+  </g>
+</svg>
