@@ -1,4 +1,14 @@
 # Spring
+
+## License
+
+Copyright (c) 2026 Khanh Le Vu Hoang (lvhkhanh). All rights reserved.
+
+This repository and related owned materials are proprietary. No use, copying,
+modification, distribution, scraping, indexing, AI training, fine-tuning,
+evaluation, embedding, or other processing is permitted without prior explicit
+written permission from Khanh Le Vu Hoang (lvhkhanh). See [LICENSE](LICENSE).
+
 ## Official
 - [ ] https://spring.io/guides/tutorials/spring-security-and-angular-js/
 - [x] https://spring.io/guides/tutorials/react-and-spring-data-rest/
