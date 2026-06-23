@@ -1,1 +1,18 @@
-node_modules
+node_modules/
+
+# Local/editor state
+.vscode/
+.idea/
+.sfdx/
+
+# AI assistant local workspaces
+.claude/agents/
+.claude/todos/
+.claude/skills/antigravity/
+
+# Build output
+bin/
+demo/bin/
+demo2/bin/
+demo/.gradle/
+demo2/.gradle/
