@@ -1,0 +1,1 @@
+npx adk run agent.ts
