@@ -1,0 +1,22 @@
+{
+  "name": "tkn-rules",
+  "version": "0.1.0",
+  "description": "Apply versioned TKN engineering conventions to requests and reviews.",
+  "author": {
+    "name": "Khanh Le Vu Hoang"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "TKN Rules",
+    "shortDescription": "Apply named engineering conventions to a task.",
+    "longDescription": "Recognizes TKN-XXXX directives, loads their versioned rule definitions, and applies them only to the requested scope.",
+    "developerName": "Khanh Le Vu Hoang",
+    "category": "Productivity",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": [
+      "Apply TKN-0001 to this DB2 query.",
+      "Review this change against TKN-0001.",
+      "Add a scoped TKN rule for this convention."
+    ]
+  }
+}

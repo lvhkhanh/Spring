@@ -1,0 +1,20 @@
+{
+  "name": "batch",
+  "interface": {
+    "displayName": "Batch"
+  },
+  "plugins": [
+    {
+      "name": "tkn-rules",
+      "source": {
+        "source": "local",
+        "path": "./plugins/tkn-rules"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

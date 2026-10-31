@@ -12,6 +12,10 @@ python3 ai-native/repo_assistant.py brief apps/COBOL/FPANALYSIS.cob
 python3 ai-native/repo_assistant.py prompt apps/RPG/EMPCRUD.rpgle
 ```
 
+## TKN Engineering Rules
+
+Reusable, versioned engineering conventions and the shareable Codex plugin are in [`plugins/tkn-rules/`](plugins/tkn-rules/). The initial `TKN-0001` rule avoids optional `AS` in DB2 SQL; a Claude Code bridge is available at [`.claude/skills/tkn-rules/`](.claude/skills/tkn-rules/).
+
 ## License
 
 Copyright (c) 2026 Khanh Le Vu Hoang (lvhkhanh). All rights reserved.
