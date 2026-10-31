@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agent Gateway</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">OAuth gated wrapper</p>
+          <h1>Agent Gateway</h1>
+        </div>
+        <div class="auth" id="auth"></div>
+      </header>
+
+      <section class="workspace">
+        <aside class="panel">
+          <div class="panel-head">
+            <h2>Skills</h2>
+            <span id="skillCount">0</span>
+          </div>
+          <div class="skill-list" id="skills"></div>
+        </aside>
+
+        <section class="runner">
+          <div class="runner-head">
+            <div>
+              <p class="eyebrow" id="provider">Choose a skill</p>
+              <h2 id="title">Predefined prompt runner</h2>
+            </div>
+            <span class="status" id="status">Locked</span>
+          </div>
+
+          <p class="description" id="description">
+            Sign in, choose a skill, fill the required inputs, then generate the provider payload.
+          </p>
+
+          <form id="runForm" class="form"></form>
+
+          <div class="output">
+            <div class="panel-head">
+              <h2>Provider envelope</h2>
+              <button id="copy" type="button">Copy</button>
+            </div>
+            <pre id="result">{}</pre>
+          </div>
+        </section>
+
+        <aside class="panel audit">
+          <div class="panel-head">
+            <h2>Audit</h2>
+            <span id="auditCount">0</span>
+          </div>
+          <div id="audit"></div>
+        </aside>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

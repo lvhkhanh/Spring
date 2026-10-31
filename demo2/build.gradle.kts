@@ -23,6 +23,10 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.hibernate.validator:hibernate-validator:6.1.5.Final")
+	implementation("io.opentelemetry:opentelemetry-api:1.31.0")
+	implementation("io.opentelemetry:opentelemetry-sdk:1.31.0")
+	implementation("io.opentelemetry:opentelemetry-exporter-otlp:1.31.0")
+	implementation("io.opentelemetry:opentelemetry-extension-trace-propagators:1.31.0")
 
 /*
 <dependency>

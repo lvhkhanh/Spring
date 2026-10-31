@@ -1,0 +1,229 @@
+{
+  "MicrosoftAgentFramework": {
+    "framework": "Microsoft Agent Framework",
+    "pattern": "planner + workflow + maker-checker",
+    "source": [
+      "apps/RPG/EMPCRUD.rpgle",
+      "apps/RPG/EMPCRUD.CLP",
+      "apps/RPG/EMPLOYEE.DDL"
+    ],
+    "target": "Java/Spring",
+    "steps": [
+      {
+        "name": "planner",
+        "role": "Decompose RPG-to-Java migration",
+        "input": [
+          "EMPCRUD.rpgle",
+          "EMPCRUD.CLP",
+          "EMPLOYEE.DDL"
+        ],
+        "output": "migration_task_graph",
+        "gate": "tasks_have_inputs_outputs_and_gates"
+      },
+      {
+        "name": "source_analysis",
+        "role": "Analyze RPGLE and CL behavior",
+        "input": [
+          "migration_task_graph"
+        ],
+        "output": "legacy_behavior_model",
+        "gate": "rpg_behavior_documented"
+      },
+      {
+        "name": "db2_mapping",
+        "role": "Map DDL and embedded SQL",
+        "input": [
+          "legacy_behavior_model",
+          "EMPLOYEE.DDL"
+        ],
+        "output": "db2_mapping",
+        "gate": "db2_mapping_explicit"
+      },
+      {
+        "name": "spring_design",
+        "role": "Design Java/Spring target",
+        "input": [
+          "legacy_behavior_model",
+          "db2_mapping"
+        ],
+        "output": "spring_design",
+        "gate": "java_design_complete"
+      },
+      {
+        "name": "code_generation",
+        "role": "Generate smallest safe Java/Spring slice",
+        "input": [
+          "spring_design"
+        ],
+        "output": "generated_code",
+        "gate": "crud_covered"
+      },
+      {
+        "name": "test_generation",
+        "role": "Generate characterization tests",
+        "input": [
+          "legacy_behavior_model",
+          "generated_code"
+        ],
+        "output": "tests",
+        "gate": "tests_generated"
+      },
+      {
+        "name": "checker",
+        "role": "Validate behavior, DB2 mapping, security, and tests",
+        "input": [
+          "legacy_behavior_model",
+          "db2_mapping",
+          "generated_code",
+          "tests"
+        ],
+        "output": "review",
+        "gate": "no_critical_findings"
+      }
+    ],
+    "final_gates": [
+      "rpg_behavior_documented",
+      "db2_mapping_explicit",
+      "java_design_complete",
+      "crud_covered",
+      "tests_generated",
+      "no_critical_findings",
+      "human_approval_points_listed"
+    ],
+    "sdk_skeleton": "# Validate names against your installed agent-framework version.\nfrom agent_framework.foundry import FoundryChatClient\nfrom azure.identity import AzureCliCredential\n\ncredential = AzureCliCredential()\nclient = FoundryChatClient(\n    project_endpoint=\"https://<foundry>.services.ai.azure.com/api/projects/<project>\",\n    model=\"<deployment-name>\",\n    credential=credential,\n)\n\nplanner = client.as_agent(\n    name=\"RPGMigrationPlanner\",\n    instructions=\"Decompose RPG-to-Java migration into typed workflow steps and gates.\",\n)\n\nrpg_analyst = client.as_agent(\n    name=\"RPGAnalyst\",\n    instructions=\"Analyze RPGLE/CL behavior. Do not generate Java code.\",\n)\n\ndb2_mapper = client.as_agent(\n    name=\"DB2Mapper\",\n    instructions=\"Map DB2 DDL and embedded SQL to Java entity/repository design.\",\n)\n\nspring_designer = client.as_agent(\n    name=\"SpringDesigner\",\n    instructions=\"Design Java/Spring domain, repository, service, controller, DTOs, and transactions.\",\n)\n\nchecker = client.as_agent(\n    name=\"MigrationChecker\",\n    instructions=\"Validate objective gates. Never use self-confidence as a pass condition.\",\n)\n\n# Option A: Functional Workflow API with @workflow / @step.\n# Option B: WorkflowBuilder with executors and edges.\n# Use HITL request/response for DB writes, deployment, or risky assumptions."
+  },
+  "LangGraph": {
+    "framework": "LangGraph",
+    "pattern": "StateGraph + supervisor + evaluator-optimizer",
+    "state": [
+      "rpg_path",
+      "cl_path",
+      "ddl_path",
+      "plan",
+      "rpg_analysis",
+      "cl_analysis",
+      "db2_mapping",
+      "target_design",
+      "generated_code",
+      "tests",
+      "review",
+      "iteration",
+      "status"
+    ],
+    "edges": [
+      [
+        "START",
+        "planner"
+      ],
+      [
+        "planner",
+        "parallel_analysis"
+      ],
+      [
+        "parallel_analysis",
+        "aggregate"
+      ],
+      [
+        "aggregate",
+        "design"
+      ],
+      [
+        "design",
+        "make_code"
+      ],
+      [
+        "make_code",
+        "make_tests"
+      ],
+      [
+        "make_tests",
+        "check"
+      ],
+      [
+        "check",
+        "route_after_check"
+      ],
+      [
+        "route_after_check:pass",
+        "END"
+      ],
+      [
+        "route_after_check:fix",
+        "make_code"
+      ],
+      [
+        "route_after_check:human",
+        "END"
+      ]
+    ],
+    "gates": [
+      "rpg_behavior_documented",
+      "db2_mapping_explicit",
+      "crud_covered",
+      "tests_generated",
+      "no_critical_findings"
+    ],
+    "source": [
+      "apps/RPG/EMPCRUD.rpgle",
+      "apps/RPG/EMPCRUD.CLP",
+      "apps/RPG/EMPLOYEE.DDL"
+    ],
+    "target": "Java/Spring",
+    "sdk_skeleton": "from typing import Literal, TypedDict\nfrom langgraph.graph import END, START, StateGraph\n\n\nclass MigrationState(TypedDict):\n    rpg_path: str\n    cl_path: str\n    ddl_path: str\n    plan: dict\n    rpg_analysis: dict\n    cl_analysis: dict\n    db2_mapping: dict\n    target_design: dict\n    generated_code: dict\n    tests: list[dict]\n    review: dict\n    iteration: int\n    status: str\n\n\ndef planner(state: MigrationState) -> MigrationState:\n    # Call planner LLM/agent here.\n    return {**state, \"plan\": {}}\n\n\ndef parallel_analysis(state: MigrationState) -> MigrationState:\n    # Fan out RPG analyst, CL analyst, DB2 mapper.\n    return {**state, \"rpg_analysis\": {}, \"cl_analysis\": {}, \"db2_mapping\": {}}\n\n\ndef aggregate(state: MigrationState) -> MigrationState:\n    return state\n\n\ndef design(state: MigrationState) -> MigrationState:\n    return {**state, \"target_design\": {}}\n\n\ndef make_code(state: MigrationState) -> MigrationState:\n    return {**state, \"generated_code\": {}, \"iteration\": state.get(\"iteration\", 0) + 1}\n\n\ndef make_tests(state: MigrationState) -> MigrationState:\n    return {**state, \"tests\": []}\n\n\ndef check(state: MigrationState) -> MigrationState:\n    return {\n        **state,\n        \"review\": {\n            \"critical_findings\": [],\n            \"requires_human_approval\": False,\n            \"gates\": {\n                \"rpg_behavior_documented\": True,\n                \"db2_mapping_explicit\": True,\n                \"crud_covered\": True,\n                \"tests_generated\": True,\n                \"no_critical_findings\": True,\n            },\n        },\n    }\n\n\ndef route_after_check(state: MigrationState) -> Literal[\"pass\", \"fix\", \"human\"]:\n    review = state[\"review\"]\n    gates = review[\"gates\"]\n    if all(gates.values()) and not review[\"critical_findings\"]:\n        return \"pass\"\n    if state.get(\"iteration\", 0) >= 3 or review[\"requires_human_approval\"]:\n        return \"human\"\n    return \"fix\"\n\n\nbuilder = StateGraph(MigrationState)\nbuilder.add_node(\"planner\", planner)\nbuilder.add_node(\"parallel_analysis\", parallel_analysis)\nbuilder.add_node(\"aggregate\", aggregate)\nbuilder.add_node(\"design\", design)\nbuilder.add_node(\"make_code\", make_code)\nbuilder.add_node(\"make_tests\", make_tests)\nbuilder.add_node(\"check\", check)\n\nbuilder.add_edge(START, \"planner\")\nbuilder.add_edge(\"planner\", \"parallel_analysis\")\nbuilder.add_edge(\"parallel_analysis\", \"aggregate\")\nbuilder.add_edge(\"aggregate\", \"design\")\nbuilder.add_edge(\"design\", \"make_code\")\nbuilder.add_edge(\"make_code\", \"make_tests\")\nbuilder.add_edge(\"make_tests\", \"check\")\nbuilder.add_conditional_edges(\n    \"check\",\n    route_after_check,\n    {\"pass\": END, \"fix\": \"make_code\", \"human\": END},\n)\n\ngraph = builder.compile()"
+  },
+  "CrewAI": {
+    "framework": "CrewAI",
+    "patterns": [
+      "sequential",
+      "hierarchical"
+    ],
+    "source": [
+      "apps/RPG/EMPCRUD.rpgle",
+      "apps/RPG/EMPCRUD.CLP",
+      "apps/RPG/EMPLOYEE.DDL"
+    ],
+    "target": "Java/Spring",
+    "agents": [
+      {
+        "role": "RPG Analyst",
+        "goal": "Extract RPGLE behavior, procedures, SQL, variables, prompts, and errors."
+      },
+      {
+        "role": "DB2 Mapper",
+        "goal": "Map DB2 DDL and embedded SQL to Java entity and repository design."
+      },
+      {
+        "role": "Java/Spring Designer",
+        "goal": "Design domain, service, repository, controller, DTOs, and transactions."
+      },
+      {
+        "role": "Code Maker",
+        "goal": "Generate the smallest safe Java/Spring migration slice."
+      },
+      {
+        "role": "Test Maker",
+        "goal": "Generate characterization tests for CRUD behavior."
+      },
+      {
+        "role": "Checker",
+        "goal": "Validate behavior preservation, DB2 mapping, tests, security, and assumptions."
+      }
+    ],
+    "tasks": [
+      "Analyze RPGLE/CL behavior.",
+      "Map DB2 DDL and SQL.",
+      "Design Java/Spring target.",
+      "Generate code.",
+      "Generate tests.",
+      "Check gates and findings."
+    ],
+    "gates": [
+      "rpg_behavior_documented",
+      "db2_mapping_explicit",
+      "crud_covered",
+      "tests_generated",
+      "no_critical_findings"
+    ],
+    "sdk_skeleton": "from crewai import Agent, Crew, Process, Task\n\nrpg_analyst = Agent(\n    role=\"RPG Analyst\",\n    goal=\"Extract RPGLE behavior, procedures, embedded SQL, prompts, and errors.\",\n    backstory=\"Senior IBM i RPGLE analyst.\",\n    max_iter=5,\n)\n\ndb2_mapper = Agent(\n    role=\"DB2 Mapper\",\n    goal=\"Map DB2 DDL and SQL to Java entity/repository design.\",\n    backstory=\"DB2 modernization specialist.\",\n    max_iter=5,\n)\n\nspring_designer = Agent(\n    role=\"Java/Spring Designer\",\n    goal=\"Design Java/Spring domain, service, repository, controller, DTOs, and transactions.\",\n    backstory=\"Spring modernization architect.\",\n    max_iter=5,\n)\n\nchecker = Agent(\n    role=\"Migration Checker\",\n    goal=\"Validate objective gates. Never use LLM self-confidence as a pass condition.\",\n    backstory=\"Strict modernization reviewer.\",\n    max_iter=5,\n)\n\nanalyze_task = Task(\n    description=\"Analyze EMPCRUD.rpgle and EMPCRUD.CLP. Do not generate Java code.\",\n    expected_output=\"Structured legacy behavior model.\",\n    agent=rpg_analyst,\n)\n\nmap_task = Task(\n    description=\"Map EMPLOYEE.DDL and embedded SQL to Java repository design.\",\n    expected_output=\"DB2-to-Java mapping.\",\n    agent=db2_mapper,\n    context=[analyze_task],\n)\n\ndesign_task = Task(\n    description=\"Design Java/Spring target architecture.\",\n    expected_output=\"Domain/service/repository/controller design.\",\n    agent=spring_designer,\n    context=[analyze_task, map_task],\n)\n\ncheck_task = Task(\n    description=\"Validate behavior, DB2 mapping, tests, security, and assumptions.\",\n    expected_output=\"JSON gate report with findings.\",\n    agent=checker,\n    context=[analyze_task, map_task, design_task],\n)\n\nsequential_crew = Crew(\n    agents=[rpg_analyst, db2_mapper, spring_designer, checker],\n    tasks=[analyze_task, map_task, design_task, check_task],\n    process=Process.sequential,\n)\n\n# For larger migrations, use Process.hierarchical with manager_agent or manager_llm.\n# hierarchical_crew = Crew(\n#     agents=[rpg_analyst, db2_mapper, spring_designer, checker],\n#     tasks=[migration_goal_task],\n#     process=Process.hierarchical,\n#     manager_agent=manager_agent,\n# )"
+  }
+}

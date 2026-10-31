@@ -1,0 +1,1 @@
+adk run my_agent

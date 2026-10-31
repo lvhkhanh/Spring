@@ -1,5 +1,17 @@
 # Spring
 
+## AI-Native Modernization
+
+This repo now includes an AI-native modernization workspace in [`ai-native/`](ai-native/README.md). It provides repo instructions, prompts, evaluation checklists, and an offline helper script for COBOL/RPG/DB2 to Java/Kotlin/Spring modernization.
+
+Useful commands:
+
+```bash
+python3 ai-native/repo_assistant.py inventory
+python3 ai-native/repo_assistant.py brief apps/COBOL/FPANALYSIS.cob
+python3 ai-native/repo_assistant.py prompt apps/RPG/EMPCRUD.rpgle
+```
+
 ## License
 
 Copyright (c) 2026 Khanh Le Vu Hoang (lvhkhanh). All rights reserved.
